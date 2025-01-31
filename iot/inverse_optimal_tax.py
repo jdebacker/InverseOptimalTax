@@ -150,7 +150,7 @@ class IOT:
                 binned_data[income_measure].dropna(),
                 var_type="c",
                 reg_type="ll",
-                bw=[mtr_smooth_param * 40_000],
+                bw=[mtr_smooth_param],
             )
             mtr, _ = mtr_function.fit(self.z)
             mtr_prime = np.gradient(mtr, self.z, edge_order=2)
