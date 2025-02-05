@@ -150,7 +150,7 @@ class IOT:
                 binned_data[income_measure].dropna(),
                 var_type="c",
                 reg_type="ll",
-                bw=[mtr_smooth_param],
+                # bw=[mtr_smooth_param * 40],
             )
             mtr, _ = mtr_function.fit(self.z)
             mtr_prime = np.gradient(mtr, self.z, edge_order=2)
@@ -413,7 +413,7 @@ def find_eti(iot1, iot2, g_z_type="g_z"):
     eti_beliefs_lw = ((1 - iot2.mtr) / (iot2.z * iot2.f * iot2.mtr)) * (
         1 - iot2.F - (g_z.sum() - np.cumsum(g_z))
     )
-    # derivation from JJZ analytical solution that doesn't involved integration
+    # derivation from JJZ analytical solution that doesn't involve integration
     eti_beliefs_jjz = (g_z - 1) / (
         (iot2.theta_z * (iot2.mtr / (1 - iot2.mtr)))
         + (iot2.z * (iot2.mtr_prime / (1 - iot2.mtr) ** 2))
