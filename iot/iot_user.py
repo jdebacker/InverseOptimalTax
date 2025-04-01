@@ -146,10 +146,10 @@ class iot_comparison:
                 + "=%{y:.3f}<extra></extra>"
             )
         else:
-            if var == "g_z_numerical":
-                start_idx = 10  # numerical approximation not great near 0
-            else:
-                start_idx = 0
+            # if var == "g_z_numerical":
+            #     start_idx = 0  # numerical approximation not great near 0
+            # else:
+            start_idx = 0
             y = []
             for i in self.iot:
                 y.append(i.df()[var][start_idx:])
