@@ -5,6 +5,7 @@ import scipy
 from statsmodels.nonparametric.kernel_regression import KernelReg
 from scipy.interpolate import UnivariateSpline
 from scipy.linalg import lstsq
+from scipy.optimize import minimize
 
 
 class IOT:
@@ -246,12 +247,8 @@ class IOT:
                 ).values
                 / data[weight_var].sum()
             ).sum()
-            # F = st.lognorm.cdf(z_line, s=(sigmasq) ** 0.5, scale=np.exp(mu))
-            # f = st.lognorm.pdf(z_line, s=(sigmasq) ** 0.5, scale=np.exp(mu))
-            # f = f / np.sum(f)
-            # f_prime = np.gradient(f, edge_order=2)
 
-            # analytical derivative of lognormal
+            # analytical expressions for F, f, f_prime
             sigma = np.sqrt(sigmasq)
             F = (1 / 2) * (
                 1
@@ -277,15 +274,115 @@ class IOT:
             data2 = data.copy()
             # for income > 500,000 replace actual values with draws from
             # a pareto distribution
-            data2.loc[data2[income_measure] > 500_000, income_measure] = st.pareto.rvs(
-                1.16, size=data2.loc[data2[income_measure] > 500_000].shape[0]
-            )
+            # data2.loc[data2[income_measure] > 500_000, income_measure] = st.pareto.rvs(
+            #     1.16, size=data2.loc[data2[income_measure] > 500_000].shape[0]
+            # )
             f_function = st.gaussian_kde(
                 data2[income_measure],
                 bw_method=kde_bw,
                 weights=data[weight_var],
             )
-            f = f_function(z_line)
+
+            # Now splice a Pareto distribution to the KDE
+            # Step 1: Define the splicing point
+            splice_point = 350_000 #500000
+            # Step 2: Evaluate the KDE at the splice point to find
+            # its value and derivative
+            kde_value_at_splice = f_function(splice_point)
+            # For the derivative, use a small delta to compute numerically
+            delta = 0.0001 * splice_point
+            kde_derivative_at_splice = (
+                f_function(splice_point + delta) -
+                f_function(splice_point - delta)) / (2 * delta)
+
+            # Step 3: Define a Pareto distribution function that matches
+            # at the splice point
+            # The Pareto PDF is: α * x_m^α / x^(α+1) where x_m is the
+            # scale parameter and α is the shape parameter
+
+            # def find_pareto_parameters():
+            #     def objective(params):
+            #         alpha, scale = params
+            #         # Calculate the Pareto PDF value at the splice point
+            #         pareto_value = alpha * (scale**alpha) / (splice_point**(alpha+1))
+            #         # Calculate the Pareto derivative at the splice point
+            #         pareto_derivative = -alpha * (alpha+1) * (scale**alpha) / (splice_point**(alpha+2))
+
+            #         # Compute the error in matching both the value and derivative
+            #         value_error = (pareto_value - kde_value_at_splice)**2
+            #         derivative_error = (pareto_derivative - kde_derivative_at_splice)**2
+
+            #         # Return the combined error
+            #         return value_error + derivative_error
+
+            #     # Initial guess for alpha and scale
+            #     # initial_guess = [2.0, splice_point/2]
+            #     initial_guess = [1.3, splice_point/5]
+
+            #     # Constraints: alpha > 0, scale > 0
+            #     bounds = [(0.1, 10), (0.1*splice_point, splice_point)]
+
+            #     # Minimize the objective function
+            #     result = minimize(
+            #         objective, initial_guess, bounds=bounds,
+            #         method='L-BFGS-B')
+            #     print("Minimization result:", result)
+            #     if not result.success:
+            #         raise ValueError("Optimization failed: " + result.message)
+            #     if result.fun > 1e-6:
+            #         raise ValueError("Optimization did not converge to a good solution.")
+            #     return result.x
+
+            # # Get the optimal Pareto parameters
+            # alpha, scale = find_pareto_parameters()
+
+            # Directly solve for alpha
+            alpha = -(kde_derivative_at_splice * splice_point / kde_value_at_splice) - 1
+
+            # Now solve for scale using the first equation:
+            # kde_value = alpha * (scale^alpha) / (splice_point^(alpha+1))
+            # scale^alpha = kde_value * splice_point^(alpha+1) / alpha
+            scale = (kde_value_at_splice * (splice_point**(alpha+1)) / alpha)**(1/alpha)
+
+            print(f"Calculated alpha: {alpha}")
+            print(f"Calculated scale: {scale}")
+
+            # Verify the Pareto value at the splice point
+            pareto_value = alpha * (scale**alpha) / (splice_point**(alpha+1))
+            pareto_derivative = -alpha * (alpha+1) * (scale**alpha) / (splice_point**(alpha+2))
+
+            print(f"KDE value at splice: {kde_value_at_splice}")
+            print(f"Pareto value at splice: {pareto_value}")
+            print(f"Difference: {pareto_value - kde_value_at_splice}")
+
+            print(f"KDE derivative at splice: {kde_derivative_at_splice}")
+            print(f"Pareto derivative at splice: {pareto_derivative}")
+            print(f"Derivative difference: {pareto_derivative - kde_derivative_at_splice}")
+
+            # Step 4: Define the spliced PDF function
+            def spliced_pdf(x):
+                if np.isscalar(x):
+                    if x <= splice_point:
+                        return f_function(x)
+                    else:
+                        return alpha * (scale**alpha) / (x**(alpha+1))
+                else:
+                    # Handle array inputs
+                    x = np.asarray(x)
+                    result = np.zeros_like(x, dtype=float)
+                    kde_mask = x <= splice_point
+                    pareto_mask = x > splice_point
+
+                    if np.any(kde_mask):
+                        result[kde_mask] = f_function(x[kde_mask])
+                    if np.any(pareto_mask):
+                        result[pareto_mask] = alpha * (scale**alpha) / (x[pareto_mask]**(alpha+1))
+                    return result
+
+
+
+            # f = f_function(z_line)
+            f = spliced_pdf(z_line)
             f = f / np.sum(f)  # ensure sum to one
             F = np.cumsum(f)
             f_prime = np.gradient(f, z_line, edge_order=2)
