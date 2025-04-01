@@ -285,15 +285,16 @@ class IOT:
 
             # Now splice a Pareto distribution to the KDE
             # Step 1: Define the splicing point
-            splice_point = 350_000 #500000
+            splice_point = 350_000  # 500000
             # Step 2: Evaluate the KDE at the splice point to find
             # its value and derivative
             kde_value_at_splice = f_function(splice_point)
             # For the derivative, use a small delta to compute numerically
             delta = 0.0001 * splice_point
             kde_derivative_at_splice = (
-                f_function(splice_point + delta) -
-                f_function(splice_point - delta)) / (2 * delta)
+                f_function(splice_point + delta)
+                - f_function(splice_point - delta)
+            ) / (2 * delta)
 
             # Step 3: Define a Pareto distribution function that matches
             # at the splice point
@@ -337,19 +338,35 @@ class IOT:
             # alpha, scale = find_pareto_parameters()
 
             # Directly solve for alpha
-            alpha = -(kde_derivative_at_splice * splice_point / kde_value_at_splice) - 1
+            alpha = (
+                -(
+                    kde_derivative_at_splice
+                    * splice_point
+                    / kde_value_at_splice
+                )
+                - 1
+            )
 
             # Now solve for scale using the first equation:
             # kde_value = alpha * (scale^alpha) / (splice_point^(alpha+1))
             # scale^alpha = kde_value * splice_point^(alpha+1) / alpha
-            scale = (kde_value_at_splice * (splice_point**(alpha+1)) / alpha)**(1/alpha)
+            scale = (
+                kde_value_at_splice * (splice_point ** (alpha + 1)) / alpha
+            ) ** (1 / alpha)
 
             print(f"Calculated alpha: {alpha}")
             print(f"Calculated scale: {scale}")
 
             # Verify the Pareto value at the splice point
-            pareto_value = alpha * (scale**alpha) / (splice_point**(alpha+1))
-            pareto_derivative = -alpha * (alpha+1) * (scale**alpha) / (splice_point**(alpha+2))
+            pareto_value = (
+                alpha * (scale**alpha) / (splice_point ** (alpha + 1))
+            )
+            pareto_derivative = (
+                -alpha
+                * (alpha + 1)
+                * (scale**alpha)
+                / (splice_point ** (alpha + 2))
+            )
 
             print(f"KDE value at splice: {kde_value_at_splice}")
             print(f"Pareto value at splice: {pareto_value}")
@@ -357,7 +374,9 @@ class IOT:
 
             print(f"KDE derivative at splice: {kde_derivative_at_splice}")
             print(f"Pareto derivative at splice: {pareto_derivative}")
-            print(f"Derivative difference: {pareto_derivative - kde_derivative_at_splice}")
+            print(
+                f"Derivative difference: {pareto_derivative - kde_derivative_at_splice}"
+            )
 
             # Step 4: Define the spliced PDF function
             def spliced_pdf(x):
@@ -365,7 +384,7 @@ class IOT:
                     if x <= splice_point:
                         return f_function(x)
                     else:
-                        return alpha * (scale**alpha) / (x**(alpha+1))
+                        return alpha * (scale**alpha) / (x ** (alpha + 1))
                 else:
                     # Handle array inputs
                     x = np.asarray(x)
@@ -376,10 +395,12 @@ class IOT:
                     if np.any(kde_mask):
                         result[kde_mask] = f_function(x[kde_mask])
                     if np.any(pareto_mask):
-                        result[pareto_mask] = alpha * (scale**alpha) / (x[pareto_mask]**(alpha+1))
+                        result[pareto_mask] = (
+                            alpha
+                            * (scale**alpha)
+                            / (x[pareto_mask] ** (alpha + 1))
+                        )
                     return result
-
-
 
             # f = f_function(z_line)
             f = spliced_pdf(z_line)
