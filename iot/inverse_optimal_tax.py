@@ -511,7 +511,7 @@ class IOT:
         integral = np.trapz(
             g_z * self.f, self.z
         )  # renormalize to integrate to 1
-        g_z = g_z / integral
+        g_z = g_z #/ integral
 
         # use Lockwood and Weinzierl formula, which should be equivalent but using numerical differentiation
         bracket_term = (
