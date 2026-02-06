@@ -404,7 +404,7 @@ class IOT:
         return g_z, g_z_numerical
 
 
-def find_eti(iot, g_z=None, eti_0=0.25):
+def find_eti(iot, g_z=None, eti_0=0.25, boundary="z0"):
     """
     This function solves for the ETI that would result in the
     policy represented via MTRs in IOT being consistent with the
@@ -415,30 +415,56 @@ def find_eti(iot, g_z=None, eti_0=0.25):
             \varepsilon'(z)\left[\frac{zT'(z)}{1-T'(z)}\right] + \varepsilon(z)\left[\theta_z  \frac{T'(z)}{1-T'(z)} +\frac{zT''(z)}{(1-T'(z))^2}\right]+ (1-g(z))
 
     Args:
-        iot (IOT): instance of the I
+        iot (IOT): instance of the IOT class
         g_z (None or array_like): vector of social welfare weights
-        eti_0 (scalar): guess for ETI at z=0
+        eti_0 (scalar): guess for ETI at z=0 (used when boundary="z0")
+        boundary (str): "z0" to use the initial condition at z=0
+            (solves the ODE with eti_0), or "inf" to use the
+            transversality condition that
+            epsilon(z)*T'(z)/(1-T'(z))*z*f(z) -> 0 as z -> inf.
 
     Returns:
         eti_beliefs (array-like): vector of ETI beliefs over z
     """
-
     if g_z is None:
         g_z = iot.g_z
 
-    # we solve an ODE of the form f'(z) + P(z)f(z) = Q(z)
-    P_z = (
-        1 / iot.z
-        + iot.f_prime / iot.f
-        + iot.mtr_prime / (iot.mtr * (1 - iot.mtr))
-    )
-    # integrating factor for ODE: mu(z) * f'(z) + mu(z) * P(z) * f(z) = mu(z) * Q(z)
-    mu_z = np.exp(np.cumsum(P_z))
-    Q_z = (g_z - 1) * (1 - iot.mtr) / (iot.mtr * iot.z)
-    # integrate Q(z) * mu(z), as we integrate both sides of the ODE
-    int_mu_Q = np.cumsum(mu_z * Q_z)
+    if boundary == "z0":
+        # Original ODE approach with boundary condition at z=0
+        P_z = (
+            1 / iot.z
+            + iot.f_prime / iot.f
+            + iot.mtr_prime / (iot.mtr * (1 - iot.mtr))
+        )
+        mu_z = np.exp(np.cumsum(P_z))
+        Q_z = (g_z - 1) * (1 - iot.mtr) / (iot.mtr * iot.z)
+        int_mu_Q = np.cumsum(mu_z * Q_z)
+        eti_beliefs = (eti_0 + int_mu_Q) / mu_z
 
-    eti_beliefs = (eti_0 + int_mu_Q) / mu_z
+    elif boundary == "inf":
+        # Transversality condition: eps(z)*T'/(1-T')*z*f -> 0 as z -> inf
+        # eps(z) = [(1-T'(z))/T'(z)] * [1/(z*f(z))] * int_z^inf (1 - g(zt)) f(zt) dzt
+        integrand = (1 - g_z) * iot.f
+        # Reverse cumulative integral: int_z^inf = int_0^inf - int_0^z
+        # Compute using reverse cumsum of trapezoid contributions
+        # Use cumulative_trapezoid from the right
+        dz = np.diff(iot.z)
+        # Trapezoidal contributions for each interval
+        trap_contributions = 0.5 * (integrand[:-1] + integrand[1:]) * dz
+        # Reverse cumulative sum to get integral from z to z_max
+        rev_cumsum = np.flip(np.cumsum(np.flip(trap_contributions)))
+        # Append 0 for the last point (integral from z_max to inf ~ 0)
+        tail_integral = np.append(rev_cumsum, 0.0)
+
+        eti_beliefs = (
+            ((1 - iot.mtr) / iot.mtr)
+            * (1 / (iot.z * iot.f))
+            * tail_integral
+        )
+    else:
+        raise ValueError(
+            f"boundary must be 'z0' or 'inf', got '{boundary}'"
+        )
 
     return eti_beliefs
 
