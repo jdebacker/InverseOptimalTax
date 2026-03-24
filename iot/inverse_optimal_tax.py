@@ -9,11 +9,8 @@ from scipy.linalg import lstsq
 
 class IOT:
     """
-    Constructor for the IOT class.
-
-    This IOT class can be used to compute the social welfare weights
-    across the income distribution given data, tax policy parameters,
-    and behavioral parameters.
+    Computes social welfare weights across the income distribution given
+    data, tax policy parameters, and behavioral parameters.
 
     Args:
         data (Pandas DataFrame): micro data representing tax payers.
@@ -21,20 +18,16 @@ class IOT:
             weight_var, mtr
         income_measure (str): name of income measure from data to use
         weight_var (str): name of weight measure from data to use
-        eti (scalar): compensated elasticity of taxable income
-            w.r.t. the marginal tax rate
-        bandwidth (scalar): size of income bins in units of income
-        lower_bound (scalar): minimum income to consider
-        upper_bound (scalar): maximum income to consider
+        eti (scalar or dict): compensated elasticity of taxable income
+            w.r.t. the marginal tax rate. If a dict, must have keys
+            ``knot_points`` and ``eti_values`` with equal-length lists.
         dist_type (None or str): type of distribution to use if
-            parametric, if None, then non-parametric bin weights
-        mtr_smoother (None or str): method used to smooth our mtr
-            function, if None, then use bin average mtrs
+            parametric; if None, then non-parametric bin weights
+        kde_bw (scalar or None): bandwidth for KDE estimation
+        mtr_smoother (None or str): method used to smooth the mtr
+            function; if None, then use bin average mtrs
         mtr_smooth_param (scalar): parameter for mtr_smoother
         kreg_bw (array_like): bandwidth for kernel regression
-
-    Returns:
-        class instance: IOT
     """
 
     def __init__(
@@ -92,10 +85,7 @@ class IOT:
 
     def df(self):
         """
-        Return all vector attributes in a DataFrame format
-
-        Args:
-            None
+        Return all vector attributes in a DataFrame format.
 
         Returns:
             df (Pandas DataFrame): DataFrame with all inputs/outputs
@@ -133,8 +123,9 @@ class IOT:
                 Must include the following columns: income_measure,
                 weight_var, mtr
             weight_var (str): name of weight measure from data to use
-            mtr_smoother (None or str): method used to smooth our mtr
-            function, if None, then use bin average mtrs
+            income_measure (str): name of income measure from data to use
+            mtr_smoother (None or str): method used to smooth the mtr
+                function; if None, then use bin average mtrs
             mtr_smooth_param (scalar): parameter for mtr_smoother
             kreg_bw (array_like): bandwidth for kernel regression
 
@@ -226,11 +217,10 @@ class IOT:
 
         Returns:
             tuple:
-                * z (array_like): mean income at each bin in the income
-                    distribution
-                * f (array_like): density for income bin z
-                * f_prime (array_like): slope of the density function for
-                    income bin z
+                * z (array_like): income grid points
+                * F (array_like): cumulative distribution function at each z
+                * f (array_like): density at each z
+                * f_prime (array_like): slope of the density function at each z
         """
         z_line = np.linspace(100, 1000000, 100000)
         # drop zero income observations
@@ -362,21 +352,21 @@ class IOT:
 
     def sw_weights(self):
         r"""
-        Returns the social welfare weights for a given tax policy.
+        Return the social welfare weights for a given tax policy.
 
         See Jacobs, Jongen, and Zoutman (2017) and
         Lockwood and Weinzierl (2016) for details.
 
         .. math::
-            g_{z} = 1 + \theta_z \varepsilon^{c}\frac{T'(z)}{(1-T'(z))} +
-            \varepsilon^{c}\frac{zT''(z)}{(1-T''(z))^{2}}
-
-        Args:
-            None
+            g_{z} = 1 + \theta_z \varepsilon^{c}\frac{T'(z)}{1-T'(z)} +
+            \varepsilon^{c}\frac{zT''(z)}{(1-T'(z))^{2}}
 
         Returns:
-            array_like: vector of social welfare weights across
-            the income distribution
+            tuple:
+                * g_z (array_like): social welfare weights via analytical
+                    formula
+                * g_z_numerical (array_like): social welfare weights via
+                    the Lockwood and Weinzierl numerical formula
         """
         g_z = (
             1
