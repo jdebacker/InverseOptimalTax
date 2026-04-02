@@ -285,7 +285,7 @@ class IOT:
 
             # Now splice a Pareto distribution to the KDE
             # Step 1: Define the splicing point
-            splice_point = 350_000  # 500000
+            splice_point = 200_000 #350_000  # 500000
             # Step 2: Evaluate the KDE at the splice point to find
             # its value and derivative
             kde_value_at_splice = f_function(splice_point)
