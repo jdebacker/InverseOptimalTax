@@ -35,7 +35,7 @@ We use the method of inverse optimal taxation to infer political weights from th
 
 \medskip
 \noindent
-{\small{\bf Keywords}{:} 
+{\small{\bf Keywords}{:}
 Inverse Optimal Taxation, Optimal Taxation, Political Preferences, Tax Policy
 }
 
@@ -75,7 +75,7 @@ We extend this prior work by analyzing the political weights of candidates for P
 \cite{AS2015} show that the optimal tax schedule can be characterized as a function of observed earnings, $z$ with the following condition:
 
 \begin{equation}
-\label{eqn:g_z}
+\label{eqn:mtr}
   \frac{T'(z)}{1 - T'(z)} = \frac{1-F(z)}{\varepsilon z f(z)}\int_{z}^{\infty}\frac{1-g(\tilde{z})}{1-F(\tilde{z})}dF(\tilde{z})
 \end{equation}
 
@@ -89,7 +89,7 @@ Following \citet{JJZ2017}, with a constant elasticity of taxable income (ETI), a
 
 where $\theta_z \equiv 1 + \frac{zf'(z)}{f(z)}$.  This equation says that the MSWW is equal to one plus the marginal deadweight loss of taxation.  That is, if we observe a planner imposing high marginal tax rates on taxpayers with income $z$, which result in a large increase in deadweight loss, then it must be that the planner's social welfare weight on those taxpayers is high. If the welfare weight were not high, then the planner could reduce the marginal tax rate, increasing efficiency with little cost to the social welfare. The marginal weight, $g(z)$, can be interpreted as the value of transferring one dollar of income to someone with income $z$.
 
-\citet{JJZ2017} derive the expression for $g(z)$ in a more general model with income and participation effects.  However, they find that income and participation effects have quantitatively negligible impacts on the estimated MSWWs. We therefore use the more parsimonious model, which still captures the main determinants of the MSWWs.  Excluding income effects from our model will tend to bias downward the social welfare weights on high income earners since the presence of income effects would lower the distortion of high tax rates on labor supply, suggesting that optimal tax rates would be higher when there are income effects.  But given the evidence of \citet{JJZ2017} we do not expect the bias to be significant.  
+\citet{JJZ2017} derive the expression for $g(z)$ in a more general model with income and participation effects.  However, they find that income and participation effects have quantitatively negligible impacts on the estimated MSWWs. We therefore use the more parsimonious model, which still captures the main determinants of the MSWWs.  Excluding income effects from our model will tend to bias downward the social welfare weights on high income earners since the presence of income effects would lower the distortion of high tax rates on labor supply, suggesting that optimal tax rates would be higher when there are income effects.  But given the evidence of \citet{JJZ2017} we do not expect the bias to be significant.
 
 There is evidence which suggests that the $\varepsilon^c$ varies across $z$ (see \citet{SSG2012}), with higher income taxpayers generally having a larger ETI. We relax this assumption in our analysis in Section \ref{sec:nonconstant_eti}, but here we note that the constant ETI assumption will tend to bias upward the MSWWs on high income earners.  This is because using a lower ETI for high income earners will reduce the deadweight loss implied from taxing them and therefore and therefore must mean that they are receiving a relatively higher MSWW given the relatively high marginal tax rates they face.
 
@@ -108,7 +108,7 @@ From Equation \ref{eqn:g_z}, it's clear that to recover the MSWWs, one needs to 
 
 \subsection{The Distribution of Earnings}
 
-The distribution of earnings, $f(z)$, is a density function which represents the likelihood of a taxpayer having income, $z$. We approximate the earnings distribution with a Pareto log-normal distribution \citep{HajargashtGriffiths2013} and estimate the parameters of the distribution via maximum likelihood using a data file produced by the \texttt{taxdata} project. This file uses the 2012 IRS Public Use file as it's base.  It then imputes non-filers using the March Current Population Survey from 2012, resulting in about 200,000 observations.  These data are extrapolated out through 2024 (the last election year we consider) by growing out nominal variables at observed rates of growth and using a linear optimization routine that adjusts the sampling weights to high IRS and other targets from each year.  The results is a data file representative of tax units in the U.S. for all years, 2012-2024.
+The distribution of earnings, $f(z)$, is a density function which represents the likelihood of a taxpayer having income, $z$. We approximate the earnings distribution with a Pareto log-normal distribution \citep{HajargashtGriffiths2013} and estimate the parameters of the distribution via maximum likelihood using a data file produced by the \texttt{taxdata} project. This file uses the 2012 IRS Public Use file as its base.  It then imputes non-filers using the March Current Population Survey from 2012, resulting in about 200,000 observations.  These data are extrapolated out through 2024 (the last election year we consider) by growing out nominal variables at observed rates of growth and using a linear optimization routine that adjusts the sampling weights to high IRS and other targets from each year.  The results is a data file representative of tax units in the U.S. for all years, 2012-2024.
 
 Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for 2012.  Each year we consider (2013-2024) looks roughly similar, with a large mass concentrated in lower income bins and a long right tail.
 
@@ -119,7 +119,7 @@ Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for
 \includegraphics[width=\textwidth]{./images/income_dist_histogram.png}
 \end{figure}
 
-%We require the density function to be differentiable over the interval of estimation. Thus, we use Kernel Density Estimation (KDE), 
+%We require the density function to be differentiable over the interval of estimation. Thus, we use Kernel Density Estimation (KDE),
 %\begin{equation*}
 %    \hat{f}(z) = \frac{1}{h*n} \sum_{k=1}^{n} K(\frac{z-z_i}{h}),
 % \end{equation*}
@@ -130,7 +130,7 @@ We differentiate $f(z)$ to find $f'(z)$.
 
 Using the open-source \texttt{Tax-Calculator} microsimulation model, we simulate each candidate's tax policy proposals and find the resulting marginal tax rates faced by the primary filers in each tax unit in our underlying data file.  We use the same tax return microdata described in the previous section for this analysis.  When computing marginal tax rates, we focus on the rate associated with earning another dollar of labor income (wages and salaries on IRS Form 1040) for the primary filer.  We also use the combined, income and payroll tax, marginal tax rate to reflect the full burden of the federal tax system on labor income.
 
-After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into 1,000 bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  An example of the resulting marginal tax rate function, using 2023 tax law, can be seen in Figure \ref{fig:mtr_2023}. 
+After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into 1,000 bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  An example of the resulting marginal tax rate function, using 2023 tax law, can be seen in Figure \ref{fig:mtr_2023}.
 
 \begin{figure}[H]
 \caption{Fitted Marginal Tax Rate Schedule, $T'(z)$, for 2023 law}
@@ -152,13 +152,13 @@ In Section \ref{sec:candidate_policy}, we describe the policies of the candidate
 % Where $K$ is the Gaussian Kernel (described in section 4.1), $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for individual $i$.
 % Figure 5 is the kernel regression estimate of $T'(z)$ for each policy proposal.
 
-% This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies. However, we recognize that the differences in the estimate vary much more across sample years than it does across policies. We discuss the implications of this result in sections 5 and 6. 
+% This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies. However, we recognize that the differences in the estimate vary much more across sample years than it does across policies. We discuss the implications of this result in sections 5 and 6.
 
 \subsection{Elasticity of Taxable Income}\label{sec:ETI}
 
-\citet{SSG2012} survey the literature on the elasticity of taxable income $\varepsilon^c$. This is an important component of the model because it summarizes the behavioral responses to taxation. Behavioral responses to taxation lead to deadweight losses because the change in behavior results in a larger loss in private transactions (e.g., gains to employers and employees from work) than there is a gain in tax revenue.  Without behavioral responses, the revenue collected would exactly equal the losses to private parties and there would be no overall economic loss. 
+\citet{SSG2012} survey the literature on the elasticity of taxable income $\varepsilon^c$. This is an important component of the model because it summarizes the behavioral responses to taxation. Behavioral responses to taxation lead to deadweight losses because the change in behavior results in a larger loss in private transactions (e.g., gains to employers and employees from work) than there is a gain in tax revenue.  Without behavioral responses, the revenue collected would exactly equal the losses to private parties and there would be no overall economic loss.
 
-The elasticity of taxable income operates as a sufficient statistic, summarizing a broad range of responses to taxes, such as the labor supply elasticity, timing of realization of capital gains, increased charitable expenses, and others. Seminal work by \citet{Feldstein1999} shows that the deadweight loss of taxation can be computed solely on the basis of the ETI. The elasticity depends on a number of factors including personal preferences and the tax system. A tax system which significantly encourages changing behavior, such as through many itemized deductions, will generate a higher $\varepsilon^c$ and therefore more deadweight loss. 
+The elasticity of taxable income operates as a sufficient statistic, summarizing a broad range of responses to taxes, such as the labor supply elasticity, timing of realization of capital gains, increased charitable expenses, and others. Seminal work by \citet{Feldstein1999} shows that the deadweight loss of taxation can be computed solely on the basis of the ETI. The elasticity depends on a number of factors including personal preferences and the tax system. A tax system which significantly encourages changing behavior, such as through many itemized deductions, will generate a higher $\varepsilon^c$ and therefore more deadweight loss.
 
 \cite{SSG2012} find that most estimates of average long run elasticity of taxable income range between 0.12 and 0.4, with a middle of the road estimate being 0.25. We use $\varepsilon=0.25$ in our baseline results, but show robustness to alternative assumptions in Section \ref{sec:robustness}.
 
@@ -203,15 +203,15 @@ The two major party candidates in the 2016 Presidential Election were Donald Tru
 \begin{itemize}
     \item Adjust the individual income tax schedule:
         \begin{center}
-        \begin{tabular}{||c c c c||} 
+        \begin{tabular}{||c c c c||}
          \hline
-         Single Filer & Married Joint Filers &  Ordinary Income Rate & Capital Gains Rate\\ [0.5ex] 
+         Single Filer & Married Joint Filers &  Ordinary Income Rate & Capital Gains Rate\\ [0.5ex]
          \hline\hline
-         [\$0, \$37500) & [\$0, \$75000) & 12\% & 0\%\\ 
+         [\$0, \$37500) & [\$0, \$75000) & 12\% & 0\%\\
          \hline
-         [\$37500, \$112500) & [\$75000, \$225000) & 25\% & 15\%\\ 
+         [\$37500, \$112500) & [\$75000, \$225000) & 25\% & 15\%\\
          \hline
-         >\$112500 & >\$2250000 & 33\% & 20\%\\ 
+         >\$112500 & >\$225000 & 33\% & 20\%\\
          \hline
         \end{tabular}
         \end{center}
@@ -240,13 +240,13 @@ Former Secretary of State Hillary Clinton proposed the following changes during 
     \item Limit the value of itemized deductions (except charity) and tax expenditures to a tax rate of 28\%
     \item Increase Child Tax Credit by \$1,000 for children under 5, phase in from first dollar rather than \$3,000
     % \item Create new schedule of long term capital gains tax rates:
-    
+
     % \begin{center}
-    % \begin{tabular}{||c c||} 
+    % \begin{tabular}{||c c||}
     %  \hline
-    %  Years Held & Marginal Tax Rate \\ [0.5ex] 
+    %  Years Held & Marginal Tax Rate \\ [0.5ex]
     %  \hline\hline
-    %  [0, 2) & 39.6\% \\ 
+    %  [0, 2) & 39.6\% \\
     %  \hline
     %  [2, 3) & 36\% \\
     %  \hline
@@ -254,13 +254,13 @@ Former Secretary of State Hillary Clinton proposed the following changes during 
     %  \hline
     %  [4, 5) & 28\\
     %  \hline
-    %  [5, 6) & 24\\  
+    %  [5, 6) & 24\\
     %  \hline
     %  6+     &  20\\
     %  \hline
     % \end{tabular}
     % \end{center}
-    
+
     % \item Limit value of tax-deferred and tax-free savings (how much?)
     % \item Limit tax benefit of like-kind exchanges
     % \item Tax carried interest at income tax rate rather than capital gains rate
@@ -283,15 +283,15 @@ Former Secretary of State Hillary Clinton proposed the following changes during 
 
 
 \subsubsection{2020 Election}
-The election of 2020 featured President Donal Trump (Republican) and President Joe Biden (Democrat).  The Trump campaign did not articulate a set of tax policy proposals, so we take his signature piece of legislation during his first term, the Tax Cuts and Jobs Act, as his tax policy position while campaigning for re-election.  Relative to 2017 law, the TCJA made the following changes relevant to the MTRs we model: \footnote{See \citep{TCJA} for details.}
+The election of 2020 featured President Donald Trump (Republican) and President Joe Biden (Democrat).  The Trump campaign did not articulate a set of tax policy proposals, so we take his signature piece of legislation during his first term, the Tax Cuts and Jobs Act, as his tax policy position while campaigning for re-election.  Relative to 2017 law, the TCJA made the following changes relevant to the MTRs we model: \footnote{See \citep{TCJA} for details.}
 \begin{itemize}
     \item Alter the individual marginal income tax schedule:
     \begin{center}
-    \begin{tabular}{||c c||} 
+    \begin{tabular}{||c c||}
      \hline
-     Income  & Marginal Tax Rate \\ [0.5ex] 
+     Income  & Marginal Tax Rate \\ [0.5ex]
      \hline\hline
-     [0, \$9,525) & 10\% \\ 
+     [0, \$9,525) & 10\% \\
      \hline
      [\$9,525, \$38,700) & 12\% \\
      \hline
@@ -299,7 +299,7 @@ The election of 2020 featured President Donal Trump (Republican) and President J
      \hline
      [\$82,500, 157,500) & 24\% \\
      \hline
-     [\$157,000, \$200,000) & 32\% \\  
+     [\$157,000, \$200,000) & 32\% \\
      \hline
      [\$200,000, 500,000) & 35\% \\
      \hline
@@ -310,7 +310,7 @@ The election of 2020 featured President Donal Trump (Republican) and President J
     \item Index these changes using Chained CPI
     % \item The jointly filing schedule has double the income intervals except with the top rate starting at \$600,000
     \item Increase the standard deduction to \$12,000 for single filers, \$18,000 for heads of household, and \$24,000 for joint filers
-    \item Eliminate the personal exemption 
+    \item Eliminate the personal exemption
     \item Double the Child Tax Credit and increase the phaseout from \$110,000 to \$400,000
     \item Limit a number of deductions such as the mortgage interest deduction and the state and local tax deduction
     \item Raise the exemption on the alternative minimum tax from \$109,400 for married filers, increase the phaseout to \$1 million
@@ -373,7 +373,7 @@ Both candidates also proposed exempting tip income from taxation, but we do not 
 \section{Political Weights of Recent Presidential Candidates}
 \label{sec:estimated_weights}
 
-Given the candidate proposals outlined in the previous section, and using the kernel regression estimator described in Section \ref{sec:mtr_est}, we estimate the marginal tax rate schedule for each of the eight candidate-platforms.  Figure \ref{fig:mtr_all} plots these, with blue lines denoting Democrat party candidates and red lines denoting Republican party candidates. Line type varies with the year of the election. 
+Given the candidate proposals outlined in the previous section, and using the kernel regression estimator described in Section \ref{sec:mtr_est}, we estimate the marginal tax rate schedule for each of the eight candidate-platforms.  Figure \ref{fig:mtr_all} plots these, with blue lines denoting Democrat party candidates and red lines denoting Republican party candidates. Line type varies with the year of the election.
 
 \begin{figure}[H]
 \caption{Candidates' Proposed Marginal Tax Rates, $T'(z)$}
@@ -393,7 +393,7 @@ Combining the estimates of $T'(z)$ with our estimates on the income distribution
 \includegraphics[width=\textwidth]{./images/gz_all_pln.png}
 \end{figure}
 
-We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Candidates' political weights become more different at incomes over \$600,000.  At that point, we begin to see lower weights from Democratic candidates relative to Republicans.  At the same time, the pattern of weights within party are quite similar over time.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed). 
+We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Candidates' political weights become more different at incomes over \$600,000.  At that point, we begin to see lower weights from Democratic candidates relative to Republicans.  At the same time, the pattern of weights within party are quite similar over time.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed).
 
 TODO: more to write here?  Be nice if we can get a plot to decompose the weights to work and put that here (we only have decomposition code for JJZ method but we are using the LW method to estimate the weights.  E.g.,
 
@@ -402,7 +402,7 @@ TODO: more to write here?  Be nice if we can get a plot to decompose the weights
 \label{fig:Biden_decomp}
 \centering
 \includegraphics[width=\textwidth]{./images/composition_Biden2020_gz.png}
-\end{figure} 
+\end{figure}
 
 
 \section{Robustness}
@@ -417,7 +417,7 @@ Figure \ref{fig:gz_vary_eti} shows the political weights from the Biden 2020 pro
 \label{fig:gz_Biden_vary_eti}
 \centering
 \includegraphics[width=\textwidth]{./images/vary_ETI_Biden2020_gz_numerical.png}
-\end{figure} 
+\end{figure}
 
 \subsection{Relaxing the assumption of a constant ETI}\label{sec:nonconstant_eti}
 
@@ -437,16 +437,16 @@ Relaxing the constant ETI assumption and applying the chain rule, we obtain Equa
     g_z = 1 +  \varepsilon(z) \left [ \theta_z \frac{T'(z)}{(1-T'(z))} + \frac{zT''(z)}{(1-T'(z))^2} \right ] + \varepsilon'(z) \frac{z T'(z)}{1- T'(z)}.
 \end{equation}
 
-To calibrate the value at different points in the income distribution, we turn to \citet{GS2002}, who report the value of the ETI for three income groups.  We take their estimated ETI values from Table 9 and assign them to the income level that is approximately the median of each of the reported income bins (\$30,000, \$75,000, and \$250,000, respectively).  These are represented with red dots in Figure \ref{fig:vary_eti}.  Next, we take the ETI of the top 1\% estimated by \citet{MW2000} to be 1.83, using this as the value of the ETI at \$2,000,000 of income. We set another value of 1.9 at \$10,000,000 so that the spline function with estimates has a more flat curvature at high income levels.  The result of fitting a cubic spline through these data points is a function represented by the blue line in Figure \ref{fig:vary_eti}. 
+To calibrate the value at different points in the income distribution, we turn to \citet{GS2002}, who report the value of the ETI for three income groups.  We take their estimated ETI values from Table 9 and assign them to the income level that is approximately the median of each of the reported income bins (\$30,000, \$75,000, and \$250,000, respectively).  These are represented with red dots in Figure \ref{fig:vary_eti}.  Next, we take the ETI of the top 1\% estimated by \citet{MW2000} to be 1.83, using this as the value of the ETI at \$2,000,000 of income. We set another value of 1.9 at \$10,000,000 so that the spline function with estimates has a more flat curvature at high income levels.  The result of fitting a cubic spline through these data points is a function represented by the blue line in Figure \ref{fig:vary_eti}.
 
 \begin{figure}[H]
 \caption{Varying $\varepsilon$, fitted values from Gruber and Saez (2002)}
 \label{fig:vary_eti}
 \centering
 \includegraphics[width=\textwidth]{./images/ETI_spline.png}
-\end{figure} 
+\end{figure}
 
-With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights impied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see some negative weights and generally a much steeper decline in the implied political weights on high income earners.  Of course, we noted earlier that a higher ETI will result in lower weights as the welfare function much be placing less weight on transfers to taxpayers at a given point in the income distribution if the deadweight loss is very large yet these filers face high marginal tax rates.
+With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights implied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see some negative weights and generally a much steeper decline in the implied political weights on high income earners.  Of course, we noted earlier that a higher ETI will result in lower weights as the welfare function much be placing less weight on transfers to taxpayers at a given point in the income distribution if the deadweight loss is very large yet these filers face high marginal tax rates.
 
 
 \begin{figure}[H]
@@ -454,20 +454,20 @@ With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again reco
 \label{fig:gz_vary_eti}
 \centering
 \includegraphics[width=\textwidth]{./images/gz_numerical_all_vary_eti.png}
-\end{figure} 
+\end{figure}
 
 \section{Inverting the inverse}
 \label{sec:invert_inverse}
 
-Here we invert the invert the inverse.  That is, we use Equation \ref{eqn:FOC}, but solve for $\varepsilon(z)$ as function of the $T'(z)$, $f(z)$, and $g(z)$. Given that there is considerable debate among economists about the elasticity of taxable income \citep{SSG2012}, can we expect policy makers to agree as well? 
+Here we invert the invert the inverse.  That is, we use Equation \ref{eqn:FOC}, but solve for $\varepsilon(z)$ as function of the $T'(z)$, $f(z)$, and $g(z)$. Given that there is considerable debate among economists about the elasticity of taxable income \citep{SSG2012}, can we expect policy makers to agree as well?
 
 The thought experiment we want to do with this is the following: we see two candidates different policies.  If the median voter theorem holds, they should converge on their policy preferences.  So perhaps it's not a disagreement about the political preferences, but rather differences over beliefs about behavioral responses to policy as captured by the Elasticity of Taxable Income in the model.
 
-This is best solved as recasting Equation \ref{eqn:g_z_vary_ETI} as a first-order linear ODE in terms of $\varepsilon(z)$. The solution thus requires a boundary condition, which we set $\varepsilon_0$ equal to the estimate in Section \ref{sec:ETI}. With Equation \ref{eqn:solve_eti}, we can say solve for the implied beliefs about the ETI given a set of political weights and a proposed tax policy. 
+This is best solved as recasting Equation \ref{eqn:g_z_vary_ETI} as a first-order linear ODE in terms of $\varepsilon(z)$. The solution thus requires a boundary condition, which we set $\varepsilon_0$ equal to the estimate in Section \ref{sec:ETI}. With Equation \ref{eqn:solve_eti}, we can say solve for the implied beliefs about the ETI given a set of political weights and a proposed tax policy.
 
 \begin{equation}
     \label{eqn:solve_eti}
-    \varepsilon(z) = \frac{1-T'(z)}{T'(z) z f(z)}\left[ 
+    \varepsilon(z) = \frac{1-T'(z)}{T'(z) z f(z)}\left[
     \frac{\varepsilon_0 T'(z_0) z_0 f(z_0)}{1-T'(z_0)} - \int_0^z (1-g_z(\tilde z)) f(\tilde z)d \tilde z
     \right]
 \end{equation}
@@ -483,9 +483,9 @@ By assuming a set of candidates has the same political weights across the distri
 \label{fig:gz_TrumpClinton}
 \centering
 \includegraphics[width=\textwidth]{./images/trump_clinton_g_z_numerical.png}
-\end{figure} 
+\end{figure}
 
-So if Trump really had the same political preferences at Clinton (and she believes $\varepsilon=0.25$), then what must his beliefs about the ETI be?  Figure \ref{fig:trump_eti} shows this. We see that we can rationalize the differences in policy between Trump and Clinton's policies by attributing a belief to Trump of $\varepsilon_z \approx 0.27$ rather than $\varepsilon_z \approx 0.25$. This is well within the reasonable range of $(0.12, 0.4)$ discussed by \citet{SSG2012}, and thus could be a reasonable explanation of the policy difference. TODO: Is \citet{Hendren2020} at good cite here?
+So if Trump really had the same political preferences at Clinton (and she believes $\varepsilon=0.25$), then what must his beliefs about the ETI be?  Figure \ref{fig:trump_eti} shows this. We see that we can rationalize the differences in policy between Trump and Clinton's policies by attributing a belief to Trump of $\varepsilon_z \approx 0.27$ rather than $\varepsilon_z \approx 0.25$. This is well within the reasonable range of $(0.12, 0.4)$ discussed by \citet{SSG2012}, and thus could be a reasonable explanation of the policy difference.
 
 
 \begin{figure}[H]
@@ -493,17 +493,17 @@ So if Trump really had the same political preferences at Clinton (and she believ
 \label{fig:trump_eti}
 \centering
 \includegraphics[width=\textwidth]{images/eti_trump.png}
-\end{figure} 
+\end{figure}
 
 
-We can also use this method to rule out preferences which would be associated with wildly counterfactual beliefs about the ETI for a given set of tax proposals. For example, if we assume all weights are utilitarian (i.e. $g(z) \equiv 1$), what beliefs would candidates need to have to justify their proposals? Figure \ref{fig:eti_utilitarian} shows this. Candidates would need to believe an ETI ranging from $\varepsilon_z \in (0.07, 0.11)$ for most of the income distribution, which lies outside the credible range of estimates. Thus, we can reject the hypothesis that presidential candidates in the US are plausibly utilitarian. 
+We can also use this method to rule out preferences which would be associated with wildly counterfactual beliefs about the ETI for a given set of tax proposals. For example, if we assume all weights are utilitarian (i.e. $g(z) \equiv 1$), what beliefs would candidates need to have to justify their proposals? Figure \ref{fig:eti_utilitarian} shows this. Candidates would need to believe an ETI ranging from $\varepsilon_z \in (0.07, 0.11)$ for most of the income distribution, which lies outside the credible range of estimates. Thus, we can reject the hypothesis that presidential candidates in the US are plausibly utilitarian.
 
 \begin{figure}[H]
 \caption{Implied $\varepsilon(z)$ for all candidates assuming utilitarian weights}
 \label{fig:eti_utilitarian}
 \centering
 \includegraphics[width=\textwidth]{images/eti_utilitarian.png}
-\end{figure} 
+\end{figure}
 
 
 %\begin{figure}[H]
@@ -511,16 +511,16 @@ We can also use this method to rule out preferences which would be associated wi
 %\label{fig:trump_eti}
 %centering
 %includegraphics[width=\textwidth]{./images/trump_eti.png}
-%\end{figure} 
+%\end{figure}
 
 
 \section{Conclusions}
 \label{sec:conclude}
 
 \subsection{Summary}
-We use the derivations of \citet{JJZ2017} to implement the inverse-optimal tax methodology, to infer the social welfare weights placed by presidential candidates on individuals in society. We use the IRS Public Use files and the \texttt{Tax Calculator} microsimulation model to estimate the distribution of income and marginal tax rates. 
+We use the derivations of \citet{JJZ2017} to implement the inverse-optimal tax methodology, to infer the social welfare weights placed by presidential candidates on individuals in society. We use the IRS Public Use files and the \texttt{Tax Calculator} microsimulation model to estimate the distribution of income and marginal tax rates.
 
-We use these inputs to calculate the political weights which make the proposed tax policies optimal for each presidential candidate. We find that candidates from both parties place similar weights on taxpayers with incomes below \$100,000, but that the weights of Democrat candidates on taxpayers with earnings above \$400,000 are much lower than Republicans' weights on these taxpayers.  We also see some evidence that both parties place lower weight on these high income taxpayers in 2020 than in prior election cycles.
+We use these inputs to calculate the political weights which make the proposed tax policies optimal for each presidential candidate. We find that candidates from both parties place similar weights on taxpayers with incomes below \$100,000, but that the weights of Democratic candidates on taxpayers with earnings above \$400,000 are much lower than Republicans' weights on these taxpayers.  We also see some evidence that both parties place lower weight on these high income taxpayers in 2020 than in prior election cycles.
 
 Under the assumption of a constant ETI of 0.25, all estimated weights are positive, indicating Paretian policies from the eight candidates we analyze.  However, when we use an empirically founded ETI function that varying by income, we do find negative welfare weights on high income taxpayers. This suggests that candidates may not believe that high income taxpayers have significantly larger behavioral responses than lower income taxpayers.
 
@@ -528,7 +528,7 @@ Finally, we show results from an exercise where we try to see what ETI assumptio
 
 
 \subsection{Future Work}
-There are many avenues for future development and improvements in this project. The first of which is to better capture the right tail of the income distribution. A potential solution is to fit a Pareto distribution beyond a certain threshold following \citet{Saez2001}. We can accomplish this by using the parametric log-normal estimate and its derivative upt to a certain point in the income distribution and then solve analytically for parameters of the Pareto distribution above that point. The Pareto distribution is often used for modeling the upper tail of an income distribution because it has a meaningful interpretation in that the average beyond a threshold is proportional to the threshold. Figure \ref{fig:upper_tail} shows that for the 2021 data, the average of the upper tail over the threshold converges asymptotically, which implies that the upper tail is well represented by a Pareto distribution. Since the Pareto density is a strictly decreasing differentiable function, this would eliminate the oscillations and provide an analytical solution to the value of the density derivative where it is implemented \citep{CharpentierFlachaire2019}.
+There are many avenues for future development and improvements in this project. The first of which is to better capture the right tail of the income distribution. A potential solution is to fit a Pareto distribution beyond a certain threshold following \citet{Saez2001}. We can accomplish this by using the parametric log-normal estimate and its derivative up to a certain point in the income distribution and then solve analytically for parameters of the Pareto distribution above that point. The Pareto distribution is often used for modeling the upper tail of an income distribution because it has a meaningful interpretation in that the average beyond a threshold is proportional to the threshold. Figure \ref{fig:upper_tail} shows that for the 2021 data, the average of the upper tail over the threshold converges asymptotically, which implies that the upper tail is well represented by a Pareto distribution. Since the Pareto density is a strictly decreasing differentiable function, this would eliminate the oscillations and provide an analytical solution to the value of the density derivative where it is implemented \citep{CharpentierFlachaire2019}.
 
 \begin{figure}[H]
 \caption{Earnings Distribution Upper Tail Ratio, 2021}
@@ -537,7 +537,7 @@ There are many avenues for future development and improvements in this project. 
 \includegraphics[width=\textwidth]{./images/Saezfig2_2021.png}
 \end{figure}
 
-Another addition we could make is to incorporate taxes of other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fulling examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
+Another addition we could make is to incorporate taxes of other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fully examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
 
 We could also improve the information included in our estimates by incorporating other transfer programs outside the tax system such as the Supplemental Nutrition Assistance Program (SNAP). The differences in policy goals between candidates is often divided along party lines. This could result in the candidates being more significantly different from each other. In particular, it might make the weights on the lower end of the income distribution higher since most transfer programs are need-based, and it would likely be higher for democrats than Republicans.  The \texttt{PolicyEngine-US} model provides the ability to compute effective marginal tax rates on US households that consider both tax and benefit programs.
 
@@ -552,7 +552,7 @@ Finally, we could expand our analysis to more candidates, such as those in third
 \bibliographystyle{apalike} % Set the bibliography style
 \bibliography{references.bib} % Create the list of references
 
-\newpage 
+\newpage
 
 \section{Appendix}
 
@@ -561,37 +561,37 @@ Define the ETI at income $z$ as
 $$\varepsilon(z) = \frac{1-T'(z)}{z} \frac{\partial z}{\partial (1-T'(z))}$$
 and consider an increase in the marginal tax rate $T'(z)$ by $d\tau$ on a narrow income band $[z, z+dz]$. Note that this increases the tax liability for everyone above $z+dz$ by $d\tau \cdot dz$. The fraction of the population to whom this applies is $1-F(z)$. So the mechanical revenue increase from this reform is
 $$dR_1 = (1-F(z)) \cdot d\tau \cdot dz.$$
- 
+
 However, some people in the band $[z, z+dz]$ change their behavior due to the different marginal rate. There are $f(z)dz$ taxpayers in this band. From the definition of the ETI, the behavioral response in earnings for each of these taxpayers is
 $$dz^* = -\varepsilon(z) \cdot \frac{z}{1-T'(z)} \cdot d\tau.$$
- 
+
 Each dollar of reduced earnings costs the government $T'(z)$ in lost revenue. Thus, the total behavioral revenue loss is
 $$dR_2 = -\varepsilon(z) \cdot \frac{T'(z)}{1-T'(z)} \cdot z \cdot f(z) \cdot d\tau \cdot dz.$$
- 
+
 Finally, we must account for the welfare effect of the reform. The mechanical tax increase of $d\tau \cdot dz$ applies to all taxpayers above $z$. The social value of taking a dollar from a taxpayer at income $\tilde{z}$ is $g(\tilde{z})$, the marginal social welfare weight. Therefore, the welfare cost of the mechanical revenue increase is
 $$dW = -\int_{z}^{\infty} g(\tilde{z}) \, dF(\tilde{z}) \cdot d\tau \cdot dz.$$
 
 Note that we do not need to account separately for the welfare effect of the behavioral response, since the individual is optimizing and therefore a small change in $z$ has no first-order effect on utility by the envelope theorem. The behavioral response matters only through its fiscal externality, captured in $dR_2$.
- 
+
 At the optimum, the net welfare effect of the perturbation must be zero. The government values revenue at the margin at rate 1 (since it can redistribute it optimally), so the optimality condition is
 $$dR_1 + dR_2 + dW = 0.$$
- 
+
 Substituting and dividing through by $d\tau \cdot dz$:
 $$(1-F(z)) - \varepsilon(z) \frac{T'(z)}{1-T'(z)} z f(z) - \int_{z}^{\infty} g(\tilde{z}) \, dF(\tilde{z}) = 0.$$
- 
+
 We can rewrite the integral term as
 $$\int_{z}^{\infty} g(\tilde{z}) \, dF(\tilde{z}) = (1-F(z)) - \int_{z}^{\infty} (1-g(\tilde{z})) \, dF(\tilde{z}).$$
- 
+
 Substituting and solving for the tax rate:
 $$\varepsilon(z) \frac{T'(z)}{1-T'(z)} z f(z) = \int_{z}^{\infty} (1-g(\tilde{z})) \, dF(\tilde{z}),$$
- 
+
 which yields the optimal tax formula:
 \begin{equation}
 \label{eqn:optimal_tax}
 \frac{T'(z)}{1-T'(z)} = \frac{1-F(z)}{\varepsilon(z) \, z \, f(z)} \int_{z}^{\infty} \frac{1-g(\tilde{z})}{1-F(z)} \, dF(\tilde{z}).
 \end{equation}
- 
-This is the standard result from \citet{Saez2001} and Diamond (1998, NEEDS CITATION). When the ETI $\varepsilon(z) \equiv \varepsilon$ is constant across the income distribution, the formula simplifies to Equation \ref{eqn:g_z} in the main text.
+
+This is the standard result from \citet{Saez2001} and \citet{Diamond1998}. When the ETI $\varepsilon(z) \equiv \varepsilon$ is constant across the income distribution, the formula simplifies to Equation \ref{eqn:g_z} in the main text.
 
 \subsection{Inverse Optimal Tax Formula}
 
@@ -632,7 +632,7 @@ We start from the above Equation \ref{eqn:gz_general}. Since $\frac{d}{dz}(1-F(z
 This is a first-order linear ODE in $\varepsilon(z)$. We solve it under two different boundary conditions.
 
 \subsubsection{Solution with Initial Condition}
- 
+
 Integrate both sides of Equation of the above from $z_0$ to $z$:
 $$\int_{z_0}^{z} (g(\tilde{z}) - 1) f(\tilde{z}) \, d\tilde{z} = \varepsilon(z) \frac{T'(z)}{1-T'(z)} z f(z) - \varepsilon(z_0) \frac{T'(z_0)}{1-T'(z_0)} z_0 f(z_0).$$
 
@@ -642,11 +642,11 @@ Solving for $\varepsilon(z)$:
 \end{equation*}
 
 \subsubsection{Solution with Transversality Condition}
- 
+
 Alternatively, we can integrate the above differential equation from $z$ to $\infty$. The transversality condition requires that the tax distortion term vanishes at infinity:
 $$\lim_{z \to \infty} \varepsilon(z) \frac{T'(z)}{1-T'(z)} z f(z) = 0.$$
 
-This is a standard assumption in the literature. Given a distribution with Pareto tail parameter $>1$ (which we estimate in the data), this holds as long as $\varepsilon(z)$ doesn't grow too fast and $T'(z)$ doesn't approach 0 or 1 too quickly in the limit. 
+This is a standard assumption in the literature. Given a distribution with Pareto tail parameter $>1$ (which we estimate in the data), this holds as long as $\varepsilon(z)$ doesn't grow too fast and $T'(z)$ doesn't approach 0 or 1 too quickly in the limit.
 
 Integrating from $z$ to $\infty$:
 $$\varepsilon(z) \frac{T'(z)}{1-T'(z)} z f(z) = \int_{z}^{\infty} (g(\tilde{z}) - 1) f(\tilde{z}) \, d\tilde{z},$$
@@ -666,7 +666,7 @@ When implementing these different approaches, we consider the simple thought exp
 \label{fig:eti_trump_compare}
 \centering
 \includegraphics[width=\textwidth]{images/eti_trump_compare_bc.png}
-\end{figure} 
+\end{figure}
 
 
 \end{document}
