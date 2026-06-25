@@ -96,9 +96,6 @@ We follow the existing inverse optimal taxation literature and focus only on lab
 
 Finally, we refer to the MSWWs in our context as political weights.  Since we are analyzing the policy proposals of political candidates, it's not the case that we are estimating the candidates' social welfare functions directly.  Rather, we're estimating the weights they place on taxpayers as part of a policy position that they are relating in order to gain favor electorally. Hence, the weights implied by the inverse optimal tax method applied to the candidates' policies are more precisely defined as political weights rather than social welfare weights.
 
-% There are a few special cases worth considering. First, the case in which $\varepsilon^c = 0 \implies g_z \equiv 1$, which gives us the usual utilitarian social welfare function. If $T'(z) \equiv 0$ in the case of lump sum taxes, this also implies that $T''(z) \equiv 0$, and thus $g_z = 1$, the utilitarian social welfare function. If marginal tax rates are constant (i.e., a flat tax), then $T''(z) \equiv 0$ and the
-% implied weights come down to a function of how much revenue can be generated
-% from different parts of the income distribution ($\theta_z$).
 
 \section{Calibration}
 \label{sec:calibration}
@@ -162,210 +159,42 @@ The elasticity of taxable income operates as a sufficient statistic, summarizing
 \cite{SSG2012} find that most estimates of average long run elasticity of taxable income range between 0.12 and 0.4, with a middle of the road estimate being 0.25. We use $\varepsilon=0.25$ in our baseline results, but show robustness to alternative assumptions in Section \ref{sec:robustness}.
 
 \section{Tax Policies of Presidential Candidates}\label{sec:candidate_policy}
-We estimate the political weights associated with the tax policy proposals of the Democrat and Republican general election candidates from 2012-2024.  In most cases, we use the policy proposals set forth in official campaign materials.   In a couple cases (Obama 2012 and Trump 2020) there was not a clear tax policy position from campaign materials. In those cases we've identified their policy positions public positions they've supported near those elections.
+We estimate the political weights associated with the tax policy proposals of the Democratic and Republican general election candidates from 2012 through 2024.  For most candidates, we use official campaign proposals.  Two cases require policy proxies.  President Obama did not set out a detailed new tax platform in the 2012 campaign, so we use the tax proposals from his 2015 State of the Union Address as a proxy for his preferred tax policy.  President Trump did not articulate a detailed new tax platform in the 2020 campaign, so we use the Tax Cuts and Jobs Act (TCJA), his administration's central tax legislation, as a proxy for his reelection tax policy.
 
-Below, we summarize the positions of each candidate that we model to compute the marginal tax rate schedule that results from their proposals.\footnote{The specific parameterization of these policies are available in the Github repository...} Note that we exclude business tax proposals and proposals that we lack data to estimate (e.g., elimination of 529 Plans proposed by Obama).  Thus, the proposed changes outlined below are the set of tax law changes proposed by the candidates that affect the marginal tax rates in the theoretical model (i.e., those on labor income) and which we can capture with our data and microsimulation model.
+Table \ref{tab:candidate_policies} summarizes the policy changes that we model in \texttt{Tax-Calculator}.  The detailed provisions are listed in Appendix \ref{app:candidate_policy_details}.  We include provisions that affect federal marginal tax rates on labor income and that can be represented in the microsimulation model.  We exclude business tax provisions and proposals for which the data do not identify the relevant tax base.  In 2024, both candidates proposed exempting tip income from taxation; we omit that proposal because the data do not separately identify tip income.  We also omit Vice President Harris' proposed refundable credit for newborns for the same data-availability reason.
 
-\subsubsection{2012 Election}
-
-The 2012 Presidential Election major party candidates were Mitt Romney (Republican) and Barack Obama (Democrat). Relative to 2012 law, Romney proposed the following changes in tax policy:\footnote{See \citep{Romney} for details.}:
-% https://taxfoundation.org/simulating-economic-effects-romneys-tax-plan/
-\begin{itemize}
-    \item {A 20 percent reduction in all personal marginal income tax rates}
-    \item {Elimination of the capital gains Tax for low and middle income earners}
-    \item {Eliminate the Alternative Minimum Tax}
-    % \item Reduce Corporate Income Tax from 35 percent to 25 percent
-    % \item Eliminate the federal Estate Tax
-\end{itemize}
-
-President Obama did not lay out a clear set of tax policy changes during the 2012 election, so we take his positions from the 2015 State of the Union Address.  We assume that the 2015 speech represents President Obama's views on the optimal tax system.  The changes proposed in this speech included :\footnote{See \citep{Obama} for details.}:
-
-% https://taxfoundation.org/basics-president-obamas-state-union-tax-plan/#:~:text=According%20to%20reports%2C%20the%20president's,tax%20increases%20over%20ten%20years.&text=The%20largest%20tax%20increase%20in,tax%20rate%20to%2028%20percent.&text=Recent%20reports%20point%20towards%20a,24.2%20percent%20plus%203.8%20percent).
-
-\begin{itemize}
-    \item {\$500 tax credit for two earner families}
-    \item {Increase the Child Tax Credit from \$1,050 to \$3,000, and increase the maximum income from \$43,000 to \$120,000}
-    \item {Increase the EITC from \$503 to \$1,000 for taxpayers without children}
-    % \item Exempts Pay-As-You-Earn Student Loan Forgiveness from income taxation
-    \item Increase Capital Gains Tax Rate to 28 Percent
-    % \item End ``Stepped-Up Basis''
-    % \item Bank tax: .07 percent tax on liabilities of firms with \$50 billion in assets
-    % \item Cap of \$3.4 million for retirement plans and IRAs
-    % \item Eliminate 529 plans - tax exempt savings for education
-    % \item 28 percent corporate income tax with minimum tax on foreign earned profits
-\end{itemize}
-
-
-\subsubsection{2016 Election}
-
-The two major party candidates in the 2016 Presidential Election were Donald Trump (Republican) and Hillary Clinton (Democrat).  Both had significant tax policy proposals to change tax law relative to current law in 2016.  President Donald Trump proposed the following changes to United States tax policy while campaigning in 2016 \citep{Trump}:
-\begin{itemize}
-    \item Adjust the individual income tax schedule:
-        \begin{center}
-        \begin{tabular}{||c c c c||}
-         \hline
-         Single Filer & Married Joint Filers &  Ordinary Income Rate & Capital Gains Rate\\ [0.5ex]
-         \hline\hline
-         [\$0, \$37500) & [\$0, \$75000) & 12\% & 0\%\\
-         \hline
-         [\$37500, \$112500) & [\$75000, \$225000) & 25\% & 15\%\\
-         \hline
-         >\$112500 & >\$225000 & 33\% & 20\%\\
-         \hline
-        \end{tabular}
-        \end{center}
-    \item Eliminate head-of-household filing status
-    \item Eliminate the Net Investment Income Tax
-    \item Increase the standard deduction from \$6,300 to \$15,000 (singles)
-    \item Make childcare costs deductible for low and middle income earners, up to the average cost
-    \item Create credits for childcare of \$1,200 through the EITC
-    \item Cap itemized deductions at \$100,000 (singles)
-    \item Eliminate individual and corporate alternative minimum tax
-    % \item Tax carried interest as ordinary income
-    % \item Reduce corporate income tax from 35\% to 15\%
-    % \item Allow manufacturing firms to choose between full expensing of capital investment and the deductibility of interest paid
-    % \item Eliminate all business credits except research and development credit
-    % \item Expand credits for employer provided day care
-\end{itemize}
-%see: https://taxfoundation.org/details-analysis-donald-trump-tax-plan-2016/
-
-%and the JSON we are using (to see what is modeled here): https://github.com/PSLmodels/examples/blob/main/psl_examples/taxcalc/Trump2016.json
-
-Former Secretary of State Hillary Clinton proposed the following changes during her presidential campaign in 2016 as the Democratic nominee (changes relative to 2016 law)\footnote{See \citep{Clinton} for details.}:
-% https://taxfoundation.org/details-and-analysis-hillary-clinton-s-tax-proposals-october-2016/
-\begin{itemize}
-    \item Create 4\% ``surcharge'' on AGI above \$5 million
-    \item Create a 30\% minimum tax rate on AGI above \$1 million, phased in up to \$2 million
-    \item Limit the value of itemized deductions (except charity) and tax expenditures to a tax rate of 28\%
-    \item Increase Child Tax Credit by \$1,000 for children under 5, phase in from first dollar rather than \$3,000
-    % \item Create new schedule of long term capital gains tax rates:
-
-    % \begin{center}
-    % \begin{tabular}{||c c||}
-    %  \hline
-    %  Years Held & Marginal Tax Rate \\ [0.5ex]
-    %  \hline\hline
-    %  [0, 2) & 39.6\% \\
-    %  \hline
-    %  [2, 3) & 36\% \\
-    %  \hline
-    %  [3, 4) & 32\% \\
-    %  \hline
-    %  [4, 5) & 28\\
-    %  \hline
-    %  [5, 6) & 24\\
-    %  \hline
-    %  6+     &  20\\
-    %  \hline
-    % \end{tabular}
-    % \end{center}
-
-    % \item Limit value of tax-deferred and tax-free savings (how much?)
-    % \item Limit tax benefit of like-kind exchanges
-    % \item Tax carried interest at income tax rate rather than capital gains rate
-    % \item 20\% credit for caregiver expenses and \$5,000 in tax relief for excessive healthcare costs
-    % \item Establish 'Risk Fee' on large banks
-    % \item Small business benefits:
-    % \begin{enumerate}
-    %     \item Expand expensing
-    %     \item Increase business eligible for cash accounting
-    %     \item Increase start up deduction from \$5,000 to \$20,000
-    %     \item Create small business standard deduction
-    %     \item Expand ACA credit for small businesses
-    % \end{enumerate}
-    % \item Eliminate fossil fuel tax expenditures
-    % \item Establish business tax credit for profit sharing and apprenticeships
-    % \item Decrease estate tax exemption to \$3.5 million, introduce progressive rates with top rate of 65\% for estates worth \$500 million or more
-    % \item Tax unrealized gains on death, with some exemptions
-    % \item Tax on high frequency trading
-\end{itemize}
-
-
-\subsubsection{2020 Election}
-The election of 2020 featured President Donald Trump (Republican) and President Joe Biden (Democrat).  The Trump campaign did not articulate a set of tax policy proposals, so we take his signature piece of legislation during his first term, the Tax Cuts and Jobs Act, as his tax policy position while campaigning for re-election.  Relative to 2017 law, the TCJA made the following changes relevant to the MTRs we model: \footnote{See \citep{TCJA} for details.}
-\begin{itemize}
-    \item Alter the individual marginal income tax schedule:
-    \begin{center}
-    \begin{tabular}{||c c||}
-     \hline
-     Income  & Marginal Tax Rate \\ [0.5ex]
-     \hline\hline
-     [0, \$9,525) & 10\% \\
-     \hline
-     [\$9,525, \$38,700) & 12\% \\
-     \hline
-     [\$38,700, \$82,500) & 22\% \\
-     \hline
-     [\$82,500, 157,500) & 24\% \\
-     \hline
-     [\$157,000, \$200,000) & 32\% \\
-     \hline
-     [\$200,000, 500,000) & 35\% \\
-     \hline
-     >\$500,000 & 37\% \\
-     \hline
-    \end{tabular}
-    \end{center}
-    \item Index these changes using Chained CPI
-    % \item The jointly filing schedule has double the income intervals except with the top rate starting at \$600,000
-    \item Increase the standard deduction to \$12,000 for single filers, \$18,000 for heads of household, and \$24,000 for joint filers
-    \item Eliminate the personal exemption
-    \item Double the Child Tax Credit and increase the phaseout from \$110,000 to \$400,000
-    \item Limit a number of deductions such as the mortgage interest deduction and the state and local tax deduction
-    \item Raise the exemption on the alternative minimum tax from \$109,400 for married filers, increase the phaseout to \$1 million
-    % \item Double the estate tax exemption
-    % \item Lower the corporate tax rate to 21\%
-    % \item Eliminate the corporate alternative minimum tax
-    % \item Limit several credits and the deductibility of various business expenses such as net interest expense, domestic production activities deduction, orphan drug credit and rehabilitation credit
-\end{itemize}
-
-
-President Biden proposed the following tax policy changes on labor income (relative to 2020 law)\footnote{See \citep{Biden} for details.}:
-%https://taxfoundation.org/joe-biden-tax-plan-2020/#Details
-\begin{itemize}
-    \item Impose a 12.4\% Social Security Payroll tax on income beyond \$400,000
-    \item Increase the top marginal income tax rate from 37\% to 39.6\%
-    \item Tax Capital Gains at the income tax rate of 39.6\% on income beyond \$1 million
-    \item Cap the benefit of itemized deductions to 28 percent of value and restores the ``Pease Limitation'' for those with income greater than \$400,000
-    \item Phase out the qualified business income deduction for filers with taxable income above \$400,000
-    \item Expand EITC for childless workers 65 and older
-    \item Expand the Child and Dependent Care Tax Credit from a maximum of \$3,000 to \$8,000 and increase the maximum reimbursement rate from 35 percent to 50 percent
-    % \item Re-establish First-Time Homebuyers’ Tax Credit of \$15,000
-    % \item Restores the Estate Tax to 2009 levels
-    % \item Increases the corporate income tax rate from 21 percent to 28 percent
-    % \item Creates a minimum tax on corporations with profits of \$100 million or higher
-    % \item Double the tax rate on Global Intangible Low Tax Income earned by foreign subsidiaries of US firms from 10.5 percent to 21 percent
-    % \item Establish a Manufacturing Communities Tax Credit
-    % \item Expand the New Markets Tax Credit and makes it permanent
-    % \item Offer tax credits to small business for adopting workplace retirement savings plans
-    % \item Expand several renewable-energy-related tax credits
-\end{itemize}
-
-
-\subsubsection{2024 Election}
-
-The 2024 election featured President Donald Trump (Republican) and Vice President Kamala Harris (Democrat).  President Trump proposed the following changes to individual federal income taxes (relative to 2024 law):
-
-\begin{itemize}
- \item Extend the individual provisions of the Tax Cuts and Jobs Act
- \item Eliminate taxes on Social Security Benefits
- % \item No taxation of tip income
- % \item Extend the business tax provisions of the TCJA
- % \item Lower the corporate income tax rates to 15 percent
-\end{itemize}
-
-Vice President Harris proposed the following changes to individual federal income taxes (relative to 2024 law):
-
-\begin{itemize}
- \item Expand the child tax credit and make it fully refundable
- \item Expand the Earned Income Tax Credit
- % \item No taxation of tip income
- % \item Provide a \$6,000 refundable tax credit for newborns.
- % \item Permanently extend enhanced premium tax credits
- % \item Raise the corporate income tax rate to 28\%
-\end{itemize}
-
-Both candidates also proposed exempting tip income from taxation, but we do not have data on tip income to model this proposal and so we exclude it and Harris' proposal for a refundable credit for newborns.
+\begin{table}[H]
+\caption{Candidate tax proposals modeled in the simulations}
+\label{tab:candidate_policies}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{p{2.3cm} p{2.7cm} X p{2.1cm}}
+\toprule
+Election and candidate & Policy benchmark & Modeled provisions & Source and notes \\
+\midrule
+2012 Romney & 2012 law & 20 percent reduction in personal marginal income tax rates; elimination of capital gains taxes for low- and middle-income earners; repeal of the Alternative Minimum Tax. & \citet{Romney} \\
+\addlinespace
+2012 Obama & 2012 law; 2015 State of the Union proxy & Two-earner credit; expanded Child Tax Credit; expanded EITC for taxpayers without children; higher capital gains tax rate. & \citet{Obama}; proxy platform \\
+\addlinespace
+2016 Trump & 2016 law & New individual income tax schedule; elimination of head-of-household filing status; repeal of the Net Investment Income Tax; higher standard deduction; childcare deduction and credit; cap on itemized deductions; repeal of individual and corporate AMT. & \citet{Trump} \\
+\addlinespace
+2016 Clinton & 2016 law & High-income AGI surcharge; high-income minimum tax; limit on the value of itemized deductions and tax expenditures; expanded Child Tax Credit for young children. & \citet{Clinton} \\
+\addlinespace
+2020 Trump & 2017 law; TCJA proxy & TCJA individual rate schedule; chained-CPI indexing; higher standard deduction; repeal of personal exemption; expanded Child Tax Credit; limits on selected deductions; higher AMT exemption and phaseout. & \citet{TCJA}; proxy platform \\
+\addlinespace
+2020 Biden & 2020 law & Social Security payroll tax above \$400,000; higher top income tax rate; ordinary-rate taxation of capital gains above \$1 million; limits on itemized deductions; phaseout of the qualified business income deduction; expanded EITC and Child and Dependent Care Tax Credit. & \citet{Biden} \\
+\addlinespace
+2024 Trump & 2024 law & Extension of the individual provisions of the TCJA; elimination of taxes on Social Security benefits. & Campaign proposals \\
+\addlinespace
+2024 Harris & 2024 law & Expanded and fully refundable Child Tax Credit; expanded Earned Income Tax Credit. & Campaign proposals \\
+\bottomrule
+\end{tabularx}
+\vspace{0.1cm}
+\begin{minipage}{\textwidth}
+\footnotesize
+Notes: The table reports the provisions included in the simulations.  The detailed parameterization of each proposal is reported in Appendix \ref{app:candidate_policy_details}.  Omitted provisions are business tax provisions and proposals that cannot be mapped to the labor-income marginal tax rates used in the inverse optimal tax calculation.
+\end{minipage}
+\end{table}
 
 
 
@@ -527,19 +356,9 @@ Finally, we show results from an exercise where we try to see what ETI assumptio
 
 
 \subsection{Future Work}
-There are many avenues for future development and improvements in this project. The first of which is to better capture the right tail of the income distribution. A potential solution is to fit a Pareto distribution beyond a certain threshold following \citet{Saez2001}. We can accomplish this by using the parametric log-normal estimate and its derivative up to a certain point in the income distribution and then solve analytically for parameters of the Pareto distribution above that point. The Pareto distribution is often used for modeling the upper tail of an income distribution because it has a meaningful interpretation in that the average beyond a threshold is proportional to the threshold. Figure \ref{fig:upper_tail} shows that for the 2021 data, the average of the upper tail over the threshold converges asymptotically, which implies that the upper tail is well represented by a Pareto distribution. Since the Pareto density is a strictly decreasing differentiable function, this would eliminate the oscillations and provide an analytical solution to the value of the density derivative where it is implemented \citep{CharpentierFlachaire2019}.
-
-\begin{figure}[H]
-\caption{Earnings Distribution Upper Tail Ratio, 2021}
-\label{fig:upper_tail}
-\centering
-\includegraphics[width=\textwidth]{./images/Saezfig2_2021.png}
-\end{figure}
-
-Another addition we could make is to incorporate taxes of other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fully examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
+On extension to the model used in this paper would be to incorporate taxes of other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fully examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
 
 We could also improve the information included in our estimates by incorporating other transfer programs outside the tax system such as the Supplemental Nutrition Assistance Program (SNAP). The differences in policy goals between candidates is often divided along party lines. This could result in the candidates being more significantly different from each other. In particular, it might make the weights on the lower end of the income distribution higher since most transfer programs are need-based, and it would likely be higher for democrats than Republicans.  The \texttt{PolicyEngine-US} model provides the ability to compute effective marginal tax rates on US taxpayers that consider both tax and benefit programs.
-
 
 Finally, we could expand our analysis to more candidates, such as those in third parties and those who did not win their party's nomination. We could also try to extend our analysis further into the past. For transparency and reproducibility, the model used for our analysis is open source and available on Github (at \href{https://github.com/PSLmodels/InverseOptimalTax}{PSLmodels/InverseOptimalTax}). Thus, all that is needed to extend our results to a new candidate or policy is the specific changes suggested in the proposal. This tool can be used for candidates in future elections as well.
 
@@ -554,6 +373,116 @@ Finally, we could expand our analysis to more candidates, such as those in third
 \newpage
 
 \section{Appendix}
+
+\subsection{Candidate Policy Details}\label{app:candidate_policy_details}
+
+This appendix lists the candidate policy provisions summarized in Table \ref{tab:candidate_policies}.  These are the provisions modeled in \texttt{Tax-Calculator} to construct the marginal tax rate schedules used in the inverse optimal tax calculations.
+
+\subsubsection{2012 Election}
+
+The 2012 presidential election major-party candidates were Mitt Romney (Republican) and Barack Obama (Democrat). Relative to 2012 law, Romney proposed the following changes in tax policy \citep{Romney}:
+\begin{itemize}
+    \item A 20 percent reduction in all personal marginal income tax rates
+    \item Elimination of the capital gains tax for low and middle income earners
+    \item Eliminate the Alternative Minimum Tax
+\end{itemize}
+
+President Obama did not lay out a clear set of tax policy changes during the 2012 election, so we take his positions from the 2015 State of the Union Address.  We assume that the 2015 speech represents President Obama's views on the optimal tax system.  The changes proposed in this speech included \citep{Obama}:
+\begin{itemize}
+    \item \$500 tax credit for two earner families
+    \item Increase the Child Tax Credit from \$1,050 to \$3,000, and increase the maximum income from \$43,000 to \$120,000
+    \item Increase the EITC from \$503 to \$1,000 for taxpayers without children
+    \item Increase Capital Gains Tax Rate to 28 Percent
+\end{itemize}
+
+\subsubsection{2016 Election}
+
+The two major-party candidates in the 2016 presidential election were Donald Trump (Republican) and Hillary Clinton (Democrat). President Donald Trump proposed the following changes to United States tax policy while campaigning in 2016 \citep{Trump}:
+\begin{itemize}
+    \item Adjust the individual income tax schedule:
+        \begin{center}
+        \footnotesize
+        \begin{tabular}{p{2.6cm}p{2.8cm}cc}
+         \toprule
+         Single filer & Married joint filers & Ordinary rate & Capital gains rate\\
+         \midrule
+         {[\$0, \$37,500)} & {[\$0, \$75,000)} & 12\% & 0\%\\
+         {[\$37,500, \$112,500)} & {[\$75,000, \$225,000)} & 25\% & 15\%\\
+         >\$112,500 & >\$225,000 & 33\% & 20\%\\
+         \bottomrule
+        \end{tabular}
+        \end{center}
+    \item Eliminate head-of-household filing status
+    \item Eliminate the Net Investment Income Tax
+    \item Increase the standard deduction from \$6,300 to \$15,000 (singles)
+    \item Make childcare costs deductible for low and middle income earners, up to the average cost
+    \item Create credits for childcare of \$1,200 through the EITC
+    \item Cap itemized deductions at \$100,000 (singles)
+    \item Eliminate individual and corporate alternative minimum tax
+\end{itemize}
+
+Former Secretary of State Hillary Clinton proposed the following changes during her presidential campaign in 2016 as the Democratic nominee, relative to 2016 law \citep{Clinton}:
+\begin{itemize}
+    \item Create 4\% ``surcharge'' on AGI above \$5 million
+    \item Create a 30\% minimum tax rate on AGI above \$1 million, phased in up to \$2 million
+    \item Limit the value of itemized deductions (except charity) and tax expenditures to a tax rate of 28\%
+    \item Increase Child Tax Credit by \$1,000 for children under 5, phase in from first dollar rather than \$3,000
+\end{itemize}
+
+\subsubsection{2020 Election}
+
+The election of 2020 featured President Donald Trump (Republican) and President Joe Biden (Democrat).  The Trump campaign did not articulate a set of tax policy proposals, so we take his signature piece of legislation during his first term, the TCJA, as his tax policy position while campaigning for re-election.  Relative to 2017 law, the TCJA made the following changes relevant to the MTRs we model \citep{TCJA}:
+\begin{itemize}
+    \item Alter the individual marginal income tax schedule:
+    \begin{center}
+    \begin{tabular}{cc}
+     \toprule
+     Income & Marginal Tax Rate \\
+     \midrule
+     {[\$0, \$9,525)} & 10\% \\
+     {[\$9,525, \$38,700)} & 12\% \\
+     {[\$38,700, \$82,500)} & 22\% \\
+     {[\$82,500, \$157,500)} & 24\% \\
+     {[\$157,000, \$200,000)} & 32\% \\
+     {[\$200,000, \$500,000)} & 35\% \\
+     >\$500,000 & 37\% \\
+     \bottomrule
+    \end{tabular}
+    \end{center}
+    \item Index these changes using Chained CPI
+    \item Increase the standard deduction to \$12,000 for single filers, \$18,000 for heads of household, and \$24,000 for joint filers
+    \item Eliminate the personal exemption
+    \item Double the Child Tax Credit and increase the phaseout from \$110,000 to \$400,000
+    \item Limit a number of deductions such as the mortgage interest deduction and the state and local tax deduction
+    \item Raise the exemption on the alternative minimum tax from \$109,400 for married filers, increase the phaseout to \$1 million
+\end{itemize}
+
+President Biden proposed the following tax policy changes on labor income, relative to 2020 law \citep{Biden}:
+\begin{itemize}
+    \item Impose a 12.4\% Social Security Payroll tax on income beyond \$400,000
+    \item Increase the top marginal income tax rate from 37\% to 39.6\%
+    \item Tax Capital Gains at the income tax rate of 39.6\% on income beyond \$1 million
+    \item Cap the benefit of itemized deductions to 28 percent of value and restores the ``Pease Limitation'' for those with income greater than \$400,000
+    \item Phase out the qualified business income deduction for filers with taxable income above \$400,000
+    \item Expand EITC for childless workers 65 and older
+    \item Expand the Child and Dependent Care Tax Credit from a maximum of \$3,000 to \$8,000 and increase the maximum reimbursement rate from 35 percent to 50 percent
+\end{itemize}
+
+\subsubsection{2024 Election}
+
+The 2024 election featured President Donald Trump (Republican) and Vice President Kamala Harris (Democrat).  President Trump proposed the following changes to individual federal income taxes, relative to 2024 law:
+\begin{itemize}
+    \item Extend the individual provisions of the Tax Cuts and Jobs Act
+    \item Eliminate taxes on Social Security Benefits
+\end{itemize}
+
+Vice President Harris proposed the following changes to individual federal income taxes, relative to 2024 law:
+\begin{itemize}
+    \item Expand the child tax credit and make it fully refundable
+    \item Expand the Earned Income Tax Credit
+\end{itemize}
+
+Both candidates also proposed exempting tip income from taxation, but we do not have data on tip income to model this proposal and so we exclude it and Harris' proposal for a refundable credit for newborns.
 
 \subsection{Optimal Tax Formula}
 Define the ETI at income $z$ as
