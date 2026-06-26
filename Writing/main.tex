@@ -1,4 +1,29 @@
-\input{preamble.tex}
+% \input{preamble.tex}
+
+\documentclass[12pt]{article}
+% -------------------------------------------------------------------
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}										% Allows for accented characters
+\usepackage[T1]{fontenc}										% Accented and other characters
+\usepackage{hyperref}
+% -------------------------------------------------------------------
+% Math packages
+\usepackage{amsmath,amsfonts,amssymb,amsthm,cancel,siunitx,
+calculator,calc,mathtools,empheq,latexsym}
+% -------------------------------------------------------------------
+% Packages for figures
+\usepackage{subfig,epsfig,tikz,float}		            % For Figures
+% -------------------------------------------------------------------
+% Packages for tables and bibliography
+\usepackage{booktabs,multicol,multirow,tabularx,array}          % For tables
+\usepackage{natbib}
+% -------------------------------------------------------------------
+% Define the layout of the document
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\textwidth 13.5cm
+\textheight 19.5cm
+\columnsep .5cm
 
 % -------------------------------------------------------------------
 % Article title
@@ -139,16 +164,16 @@ $T''(z)$ is found through numerical differentiation.
 
 In Section \ref{sec:candidate_policy}, we describe the policies of the candidates we consider.  These policies are then parameterized and fed into the \texttt{Tax-Calculator} model to compute effective marginal tax rates, as described above.
 
-% The primary model performs a kernel regression, also known as the Nadaraya–Watson estimator, which uses a multivariate kernel density estimation (univariate case described in section 4.1) of the joint density between $z$ and $T'$ to provide a local mean of $T'$ about $z$. We use a kernel bandwidth of \$10,000. The estimate is calculated as follows.
+The primary model performs a kernel regression, also known as the Nadaraya–Watson estimator, which uses a multivariate kernel density estimation (univariate case described in section 4.1) of the joint density between $z$ and $T'$ to provide a local mean of $T'$ about $z$. We use a kernel bandwidth of \$10,000. The estimate is calculated as follows.
 
-% \begin{equation*}
-%     \hat{T'}(z) = \sum_{i=1}^{n} \frac{K(z-z_i)}{\sum_{i=1}^{n} K(z-z_i)} T'_i(z_i)
-% \end{equation*}
+\begin{equation*}
+    \hat{T'}(z) = \sum_{i=1}^{n} \frac{K(z-z_i)}{\sum_{i=1}^{n} K(z-z_i)} T'_i(z_i)
+\end{equation*}
 
-% Where $K$ is the Gaussian Kernel (described in section 4.1), $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for taxpayer $i$.
-% Figure 5 is the kernel regression estimate of $T'(z)$ for each policy proposal.
+Where $K$ is the Gaussian Kernel (described in section 4.1), $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for taxpayer $i$.
+Figure 5 is the kernel regression estimate of $T'(z)$ for each policy proposal.
 
-% This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies. However, we recognize that the differences in the estimate vary much more across sample years than it does across policies. We discuss the implications of this result in sections 5 and 6.
+This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies. However, we recognize that the differences in the estimate vary much more across sample years than it does across policies. We discuss the implications of this result in sections 5 and 6.
 
 \subsection{Elasticity of Taxable Income}\label{sec:ETI}
 
@@ -550,7 +575,7 @@ When $\varepsilon(z)$ is constant in $z$, we evaluate the derivative to get the 
 g(z) &= 1 + \varepsilon \left[\frac{T''(z) z}{(1-T'(z))^2} + \frac{T'(z)}{1-T'(z)}\left(1 + \frac{z f'(z)}{f(z)}\right)\right].
 \end{align*}
 
-\subsection{Solving for $\varepsilon(z)$}
+\subsection{Solving for \texorpdfstring{$\varepsilon(z)$}{epsilon(z)}}
 
 We start from the above Equation \ref{eqn:gz_general}. Since $\frac{d}{dz}(1-F(z)) = -f(z)$, this simplifies to:
 \begin{equation*}
