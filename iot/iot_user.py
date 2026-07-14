@@ -325,3 +325,63 @@ class iot_comparison:
         )
         fig.update_xaxes(range=[0, upper_bound])
         return fig
+
+    def pctile_table(self, pctiles=[10, 25, 50, 90, 99], table_format=None):
+        """
+        Compute g(z) at specified percentiles of the income distribution
+        for each candidate policy.
+
+        Args:
+            pctiles (list): percentiles at which to evaluate g(z)
+                (default: [10, 25, 50, 90, 99])
+            table_format (None or str): output format. If None, returns a
+                DataFrame. Otherwise saves to disk in the specified format:
+                * 'md' for Markdown
+                * 'tex' for LaTeX
+                * 'excel' for Excel (.xlsx)
+                * 'csv' for CSV
+
+        Returns:
+            DataFrame or None: DataFrame if table_format is None,
+                otherwise saves file to disk and returns None
+        """
+        rows = []
+        for label, iot_obj in zip(self.labels, self.iot):
+            row = {"Candidate": label}
+            for p in pctiles:
+                row[f"{p}th Percentile"] = gz_at_pctile(iot_obj, pctile=p)
+            rows.append(row)
+        df = pd.DataFrame(rows).set_index("Candidate")
+
+        if table_format is None:
+            return df
+        elif table_format == "md":
+            df.to_markdown("pctile_table.md")
+        elif table_format == "tex":
+            df.to_latex("pctile_table.tex")
+        elif table_format == "excel":
+            df.to_excel("pctile_table.xlsx")
+        elif table_format == "csv":
+            df.to_csv("pctile_table.csv")
+        else:
+            raise ValueError(
+                f"Unknown table_format '{table_format}'. "
+                "Choose from: None, 'md', 'tex', 'excel', 'csv'."
+            )
+
+
+def gz_at_pctile(iot, pctile=50):
+    """
+    Return the political weight g(z) evaluated at the income level
+    corresponding to a given percentile of the income distribution.
+
+    Args:
+        iot (IOT): instance of the IOT class
+        pctile (scalar): percentile of the income distribution at which
+            to evaluate g(z), between 0 and 100 (default: 50)
+
+    Returns:
+        scalar: g(z) evaluated at the income corresponding to pctile
+    """
+    z_star = np.interp(pctile / 100, iot.F, iot.z)
+    return float(np.interp(z_star, iot.z, iot.g_z))
