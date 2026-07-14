@@ -15,7 +15,7 @@ calculator,calc,mathtools,empheq,latexsym}
 \usepackage{subfig,epsfig,tikz,float}		            % For Figures
 % -------------------------------------------------------------------
 % Packages for tables and bibliography
-\usepackage{booktabs,multicol,multirow,tabularx,array}          % For tables
+\usepackage{booktabs,multicol,multirow,tabularx,longtable,array}          % For tables
 \usepackage{natbib}
 % -------------------------------------------------------------------
 % Define the layout of the document
@@ -188,15 +188,24 @@ We estimate the political weights associated with the tax policy proposals of th
 
 Table \ref{tab:candidate_policies} summarizes the policy changes that we model in \texttt{Tax-Calculator}.  The detailed provisions are listed in Appendix \ref{app:candidate_policy_details}.  We include provisions that affect federal marginal tax rates on labor income and that can be represented in the microsimulation model.  We exclude business tax provisions and proposals for which the data do not identify the relevant tax base.  In 2024, both candidates proposed exempting tip income from taxation; we omit that proposal because the data do not separately identify tip income.  We also omit Vice President Harris' proposed refundable credit for newborns for the same data-availability reason.
 
-\begin{table}[H]
-\caption{Candidate tax proposals modeled in the simulations}
-\label{tab:candidate_policies}
-\centering
-\footnotesize
-\begin{tabularx}{\textwidth}{p{2.3cm} p{2.7cm} X p{2.1cm}}
+\clearpage
+{\footnotesize
+\begin{longtable}{p{2.3cm} p{2.7cm} p{\dimexpr\linewidth-7.1cm-8\tabcolsep\relax} p{2.1cm}}
+\caption{Candidate tax proposals modeled in the simulations} \label{tab:candidate_policies} \\
 \toprule
 Election and candidate & Policy benchmark & Modeled provisions & Source and notes \\
 \midrule
+\endfirsthead
+\toprule
+Election and candidate & Policy benchmark & Modeled provisions & Source and notes \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\multicolumn{4}{p{\dimexpr\linewidth-2\tabcolsep\relax}}{\vspace{0.1cm}Notes: The table reports the provisions included in the simulations.  The detailed parameterization of each proposal is reported in Appendix \ref{app:candidate_policy_details}.  Omitted provisions are business tax provisions and proposals that cannot be mapped to the labor-income marginal tax rates used in the inverse optimal tax calculation.} \\
+\endlastfoot
 2012 Romney & 2012 law & 20 percent reduction in personal marginal income tax rates; elimination of capital gains taxes for low- and middle-income earners; repeal of the Alternative Minimum Tax. & \citet{Romney} \\
 \addlinespace
 2012 Obama & 2012 law; 2015 State of the Union proxy & Two-earner credit; expanded Child Tax Credit; expanded EITC for taxpayers without children; higher capital gains tax rate. & \citet{Obama}; proxy platform \\
@@ -209,17 +218,11 @@ Election and candidate & Policy benchmark & Modeled provisions & Source and note
 \addlinespace
 2020 Biden & 2020 law & Social Security payroll tax above \$400,000; higher top income tax rate; ordinary-rate taxation of capital gains above \$1 million; limits on itemized deductions; phaseout of the qualified business income deduction; expanded EITC and Child and Dependent Care Tax Credit. & \citet{Biden} \\
 \addlinespace
-2024 Trump & 2024 law & Extension of the individual provisions of the TCJA; elimination of taxes on Social Security benefits. & Campaign proposals \\
+2024 Trump & 2024 law & Extension of the individual provisions of the TCJA; elimination of taxes on Social Security benefits. & \citet{carmody2024trump}\\
 \addlinespace
-2024 Harris & 2024 law & Expanded and fully refundable Child Tax Credit; expanded Earned Income Tax Credit. & Campaign proposals \\
-\bottomrule
-\end{tabularx}
-\vspace{0.1cm}
-\begin{minipage}{\textwidth}
-\footnotesize
-Notes: The table reports the provisions included in the simulations.  The detailed parameterization of each proposal is reported in Appendix \ref{app:candidate_policy_details}.  Omitted provisions are business tax provisions and proposals that cannot be mapped to the labor-income marginal tax rates used in the inverse optimal tax calculation.
-\end{minipage}
-\end{table}
+2024 Harris & 2024 law & Expanded and fully refundable Child Tax Credit; expanded Earned Income Tax Credit. & \citet{carmody2024harris} \\
+\end{longtable}
+}
 
 
 
