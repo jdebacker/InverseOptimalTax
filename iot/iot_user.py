@@ -233,65 +233,57 @@ class iot_comparison:
         g2 = ((0 * self.iot[k].eti * df.mtr) / (1 - df.mtr)) + (
             (self.iot[k].eti * df.z * df.mtr_prime) / (1 - df.mtr) ** 2
         )
-        integral = np.trapz(g1, df.z)
-        # g1 = g1 / integral
-        integral = np.trapz(g2, df.z)
-        # g2 = g2 / integral
+        print("G1 values ", g1)  # positive and negative
+        print("G2 values ", g2)  # always positive
         plot_df = pd.DataFrame(
             {
                 self.income_measure: df.z,
                 "Overall Weight": g_weights,
                 "Tax Base Elasticity": 1 + g1,
-                "Nonconstant MTRs": 1
-                + g1
-                + g2
-                + np.abs(g1) * (np.sign(g1) != np.sign(g2)),
+                "Nonconstant MTRs": 1 + g2,
             }
         )
 
         fig = go.Figure()
-        # add a line at y = 1
+        # Baseline at y=1; subsequent fills use "tonexty" to stack additively
         fig.add_trace(
             go.Scatter(
-                x=[
-                    plot_df[self.income_measure].min(),
-                    plot_df[self.income_measure].max(),
-                ],
-                y=[1, 1],
+                x=plot_df[self.income_measure],
+                y=np.ones(len(plot_df)),
                 mode="lines",
                 line=dict(color="black", width=1, dash="dash"),
                 showlegend=False,
             )
         )
+        # Tax Base Elasticity: fills between y=1 (previous trace) and 1+g1
         fig.add_trace(
             go.Scatter(
                 x=plot_df[self.income_measure],
                 y=plot_df["Tax Base Elasticity"],
-                fill="tonexty",  # fill area from prior trace to this one
-                # fill="tozeroy",
+                fill="tonexty",
                 mode="lines",
+                line=dict(width=0),
                 fillcolor="rgba(4,40,145,0.5)",
                 name="Tax Base Elasticity",
             )
         )
         fig.add_trace(
             go.Scatter(
-                x=[
-                    plot_df[self.income_measure].min(),
-                    plot_df[self.income_measure].max(),
-                ],
-                y=[1, 1],
+                x=plot_df[self.income_measure],
+                y=np.ones(len(plot_df)),
                 mode="lines",
                 line=dict(color="black", width=1, dash="dash"),
                 showlegend=False,
             )
         )
+        # Nonconstant MTRs: fills between 1+g1 (previous trace) and 1+g1+g2
         fig.add_trace(
             go.Scatter(
                 x=plot_df[self.income_measure],
                 y=plot_df["Nonconstant MTRs"],
-                fill="tonexty",  # fill area from prior trace to this one
+                fill="tonexty",
                 mode="lines",
+                line=dict(width=0),
                 fillcolor="rgba(229,0,0,0.5)",
                 name="Nonconstant MTRs",
             )
