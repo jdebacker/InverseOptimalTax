@@ -233,8 +233,6 @@ class iot_comparison:
         g2 = ((0 * self.iot[k].eti * df.mtr) / (1 - df.mtr)) + (
             (self.iot[k].eti * df.z * df.mtr_prime) / (1 - df.mtr) ** 2
         )
-        print("G1 values ", g1)  # positive and negative
-        print("G2 values ", g2)  # always positive
         plot_df = pd.DataFrame(
             {
                 self.income_measure: df.z,
