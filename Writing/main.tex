@@ -55,7 +55,7 @@ Jason DeBacker\thanks{Jason DeBacker, Darla Moore School of Business, University
 \bigskip
 \noindent
 {\small{\bf ABSTRACT.}
-We use the method of inverse optimal taxation to infer political weights from the tax policy proposals of recent presidential candidates in the United States.  This method allows us to recover the implicit weights these candidates place on taxpayers across the income distribution. We find generally decreasing weights beyond modal income with significant differences between candidates and parties at the high end of the income distribution. Democratic candidates place lower weight on high-income taxpayers than Republican candidates. From 2012 to 2024, we note that both parties reduce the political weight they attribute to taxpayers with incomes above \$400,000. We also ask whether differences in policy proposals can be explained by heterogeneous beliefs about the behavioral responses to taxes, and find that modest differences in beliefs about taxpayer responses can explain significant differences in policies.
+We use the method of inverse optimal taxation to infer political weights from the tax policy proposals of recent presidential candidates in the United States.  This method allows us to recover the implicit weights these candidates place on taxpayers across the income distribution. We find generally decreasing weights beyond modal income with significant similarities across candidates over time, with the only notable difference at the very high end of the income distribution. Democratic candidates generally place lower weight on high-income taxpayers than Republican candidates. From 2012 to 2024, we note that both parties reduce the political weight they attribute to taxpayers with incomes above \$400,000. We also ask whether differences in policy proposals can be explained by heterogeneous beliefs about the behavioral responses to taxes, and find that modest differences in beliefs about taxpayer responses can explain significant differences in policies.
 }
 
 \medskip
@@ -69,15 +69,15 @@ Inverse Optimal Taxation, Optimal Taxation, Political Preferences, Tax Policy
 
 \section{Introduction}\label{sec:1}
 
-What do presidential candidates' tax proposals reveal about their underlying social preferences? This paper answers that question using the inverse-optimal tax framework, recovering the implicit political weights that U.S. presidential candidates assign to taxpayers across the income distribution. Tax policy is among the most contested terrain in presidential campaigns — candidates debate the appropriate degree of progressivity, the revenue needed to finance other priorities, and the incentive effects of taxation — but these debates rarely make explicit the distributional value judgments that motivate each side. Inverse optimal taxation, a revealed preference methodology, makes those implicit judgments explicit.
+This paper seeks to understand what political candidates' tax policy proposals imply about their political preferences using the inverse-optimal tax framework. Using the inverse-optimal tax theory, we recover the implicit political weights that U.S. presidential candidates assign to taxpayers across the income distribution. Tax policy is among the most contested terrain in presidential campaigns — candidates debate the appropriate degree of progressivity, the revenue needed to finance other priorities, and the incentive effects of taxation — but these debates rarely make explicit the distributional value judgments that motivate each side. Inverse optimal taxation, a revealed preference methodology, makes those implicit judgments explicit.
 
-We apply the approach developed by \citet{JJZ2017} — who estimate social welfare weights from Dutch tax policy — to U.S. presidential candidates' tax proposals since 2012, combining those proposals with empirical estimates of the income distribution and the elasticity of taxable income (ETI) to recover each candidate's implicit political weights. Our application extends this framework to a multi-candidate, partisan comparison setting, allowing us to characterize how distributional preferences differ across parties and election cycles.
+We apply the approach developed by \citet{JJZ2017} — who estimate social welfare weights from Dutch tax policy — to U.S. presidential candidates' tax proposals since 2012.  We combine those proposals with empirical estimates of the income distribution and the elasticity of taxable income (ETI) to recover each candidate's implicit political weights. Our application extends this framework to a multi-candidate, partisan comparison setting, allowing us to characterize how distributional preferences differ across parties and election cycles.
 
-We find that Democratic and Republican candidates alike exhibit a high degree of status-quo bias — their proposed tax schedules imply political weights that differ only modestly from those embedded in current law across most of the income distribution. Across all candidates, political weights decline with income, reflecting a shared preference for progressivity. The sharpest partisan divide appears at the top: Democratic candidates consistently assign lower weight to very high-income taxpayers than their Republican counterparts, though candidates from both parties assign similar weights to those below the 90th percentile. Interestingly, Trump and Clinton's 2016 proposals implied nearly identical weights for taxpayers earning up to \$650,000, suggesting some compression of partisan differences relative to 2012.
+We find that Democratic and Republican candidates alike exhibit a high degree of status-quo bias — their proposed tax schedules imply political weights that differ only modestly from those embedded in current law across most of the income distribution. Across all candidates, political weights decline with income, reflecting a shared preference for progressivity. The sharpest partisan divide appears at the top: Democratic candidates consistently assign lower weight to very high-income taxpayers than their Republican counterparts, though candidates from both parties assign similar weights to those below the 90th percentile. Interestingly, Trump and Clinton's 2016 proposals implied nearly identical weights for taxpayers earning up to \$650,000, suggesting some compression of partisan differences relative to 2012 where Obama and Romney diverged to a greater degree.
 
-Beyond documenting these patterns, we examine how assumptions about behavioral responses shape the inferred weights. Under a constant ETI, political weights at the top of the distribution are highly sensitive to that assumption — higher elasticities imply lower weights on top earners under the progressive schedules all candidates proposed. When we instead interpolate income-varying ETIs from the empirical literature, the implied weights on high-income taxpayers fall substantially relative to the constant-elasticity baseline. Most strikingly, we show that differences in candidates' beliefs about behavioral responses — rather than differences in their distributional preferences — may fully account for the observed differences in their tax proposals. The entire gap between Trump and Clinton's 2016 proposals, for instance, is consistent with a difference in ETI beliefs of just 8\% (0.25 versus 0.27), with no difference in underlying political weights required.
+Beyond documenting these patterns, we examine how assumptions about behavioral responses shape the inferred weights. Under a constant ETI, political weights at the top of the distribution are highly sensitive to the assumed ETI — higher elasticities imply lower weights on top earners under the progressive schedules all candidates proposed. When we instead interpolate income-varying ETIs from the empirical literature, the implied weights on high-income taxpayers fall substantially relative to the constant-elasticity baseline. Most strikingly, we show that differences in candidates' beliefs about behavioral responses — rather than differences in their distributional preferences — may fully account for the observed differences in their tax proposals. The entire gap between Trump and Clinton's 2016 proposals, for instance, is consistent with a difference in ETI beliefs of just 8\% (0.25 versus 0.27), with no difference in underlying political weights required.
 
-The rest of the paper is organized as follows. Section \ref{sec:approach} describes the inverse optimal tax approach. We next show how the model parameters, namely the distribution of income and the elasticity of taxable income, are calibrated in Section \ref{sec:calibration}. We summarize the tax policy proposals of U.S. presidential candidates in Section \ref{sec:candidate_policy} and use the inverse optimal tax approach to find the implied political weights in Section \ref{sec:estimated_weights}. Section \ref{sec:robustness} then offers an analysis of how the results are affected by alternative assumptions, while Section \ref{sec:invert_inverse} highlights how candidates may have different political weights or assumptions about taxpayer behavior and the implications of the latter. Finally, Section \ref{sec:conclude} concludes.
+The rest of the paper is organized as follows. Section \ref{sec:approach} describes the inverse optimal tax approach. We next show how the model parameters, namely the distribution of income and the elasticity of taxable income, are calibrated in Section \ref{sec:calibration}. We summarize the tax policy proposals of U.S. presidential candidates in Section \ref{sec:candidate_policy} and use the inverse optimal tax approach to find the implied political weights in Section \ref{sec:estimated_weights}. Section \ref{sec:robustness} then offers an analysis of how the results are affected by alternative assumptions, while Section \ref{sec:invert_inverse} highlights how differences across candidates in their beliefs about taxpayer behavior could be importance in the inverse optimal tax setting. Finally, Section \ref{sec:conclude} concludes.
 
 \section{The Inverse Optimal Tax Approach}
 \label{sec:approach}
@@ -90,7 +90,7 @@ Inverse optimal taxation reverses this exercise.  Instead of specifying social w
 
 Much of the empirical inverse-optimum literature studies enacted tax and transfer systems.  \citet{BS2012} recover welfare weights from the French tax-benefit system and find non-Paretian outcomes for some groups.  \citet{LW2016} apply the method to U.S. tax policy from 1979 to 2010 and emphasize both the promise and limitations of interpreting observed policy choices as revealed social preferences.  Related applications recover weights for Denmark \citep{Petersen2007}, single mothers in Germany and the United Kingdom \citep{BBHS2009}, childless singles in Ireland and the United Kingdom \citep{BK2010}, childless singles in 17 European countries and the United States \citep{BDNPS2014}, the U.S. federal tax system \citep{Hendren2014}, U.S. policy when taxpayers have present bias \citep{Lockwood2020}, and U.S. state tax systems \citep{Embree2023}.  \citet{Berg2019} uses Norwegian data to show how horizontal-equity concerns can shape the recovered weights, while \citet{LS2020} use inverse optimal-tax methods to identify Pareto-improving tax reforms in Germany.
 
-Our paper is closest to \citet{JJZ2017}, who use inverse optimal-tax methods to recover political weights implied by Dutch political parties' electoral platforms.  Their setting is particularly well suited to this exercise because the Netherlands Bureau for Economic Policy Analysis provides detailed and independent evaluations of party proposals.  They find that parties' implied weights reflect both redistributive preferences and political considerations, including a strong status-quo bias and low weights on high-income taxpayers.  We bring this political-platform interpretation to U.S. presidential elections, where comparable official evaluations are not available and candidate proposals must be mapped into tax schedules using microsimulation.
+Our paper is closest to \citet{JJZ2017}, who use inverse optimal-tax methods to recover political weights implied by Dutch political parties' electoral platforms.  Their setting is particularly well suited to this exercise because the Netherlands Bureau for Economic Policy Analysis provides detailed and independent evaluations of party proposals.  They find that parties' implied weights reflect both redistributive preferences and political considerations, including a strong status-quo bias and low weights on high-income taxpayers.  We bring this political-platform interpretation to U.S. presidential elections, where comparable official evaluations are not available and candidate proposals must be mapped into tax schedules using microsimulation models.
 
 Our contribution is to estimate the political weights implied by the tax proposals of major-party U.S. presidential candidates from 2012 through 2024.  Unlike studies of enacted tax systems, our analysis compares competing policy platforms within the same electoral environment.  This allows us to study partisan differences, changes across election cycles, and the extent to which differences in proposed tax schedules can be interpreted as differences in distributional weights or as differences in beliefs about behavioral responses to taxation.
 
@@ -111,7 +111,7 @@ Following \citet{JJZ2017}, with a constant elasticity of taxable income (ETI), a
     g_z = 1 + \theta_z \varepsilon^c \frac{T'(z)}{(1-T'(z))} + \varepsilon^c \frac{zT''(z)}{(1-T'(z))^2},
 \end{equation}
 
-where $\theta_z \equiv 1 + \frac{zf'(z)}{f(z)}$.  This equation says that the MSWW is equal to one plus the marginal deadweight loss of taxation.  That is, if we observe a planner imposing high marginal tax rates on taxpayers with income $z$, which result in a large increase in deadweight loss, then it must be that the planner's social welfare weight on those taxpayers is high. If the welfare weight were not high, then the planner could reduce the marginal tax rate, increasing efficiency with little cost to the social welfare. The marginal weight, $g(z)$, can be interpreted as the value of transferring one dollar of income to someone with income $z$.
+where $\theta_z \equiv 1 + \frac{zf'(z)}{f(z)}$.  This equation implies that the MSWW is equal to one plus the marginal deadweight loss of taxation.  That is, if we observe a planner imposing high marginal tax rates on taxpayers with income $z$, which result in a large increase in deadweight loss, then it must be that the planner's social welfare weight on those taxpayers is high. If the welfare weight were not high, then the planner could reduce the marginal tax rate, increasing efficiency with little cost to the social welfare. The marginal weight, $g(z)$, can be interpreted as the value of transferring one dollar of income to someone with income $z$.
 
 \citet{JJZ2017} derive the expression for $g(z)$ in a more general model with income and participation effects.  However, they find that income and participation effects have quantitatively negligible impacts on the estimated MSWWs. We therefore use the more parsimonious model, which still captures the main determinants of the MSWWs.  Excluding income effects from our model will tend to bias downward the social welfare weights on high income earners since the presence of income effects would lower the distortion of high tax rates on labor supply, suggesting that optimal tax rates would be higher when there are income effects.  But given the evidence of \citet{JJZ2017} we do not expect the bias to be significant.
 
@@ -129,9 +129,9 @@ From Equation \ref{eqn:g_z}, it's clear that to recover the MSWWs, one needs to 
 
 \subsection{The Distribution of Earnings}
 
-The distribution of earnings, $f(z)$, is a density function which represents the likelihood of a taxpayer having income, $z$. We approximate the earnings distribution with a Pareto log-normal distribution \citep{HajargashtGriffiths2013} and estimate the parameters of the distribution via maximum likelihood using a data file produced by the \texttt{taxdata} project. This file uses the 2012 IRS Public Use file as its base.  It then imputes non-filers using the March Current Population Survey from 2012, resulting in about 200,000 observations.  These data are extrapolated out through 2024 (the last election year we consider) by growing out nominal variables at observed rates of growth and using a linear optimization routine that adjusts the sampling weights to high IRS and other targets from each year.  The results is a data file representative of tax units in the U.S. for all years, 2012-2024.
+The distribution of earnings, $f(z)$, is a density function which represents the likelihood of a taxpayer having income, $z$. We approximate the earnings distribution with a Pareto log-normal distribution \citep{HajargashtGriffiths2013} and estimate the parameters of the distribution via maximum likelihood using a data file produced by the \texttt{taxdata} project.\footnote{See \url{http://pslmodels.github.io/taxdata/} for full documentation of this project and the data produced.} This file uses the 2012 IRS Public Use file as its base.  It then imputes non-filers using the March Current Population Survey from 2012, resulting in about 200,000 observations.  These data are extrapolated out through 2024 (the last election year we consider) by growing out nominal variables at observed rates of growth and using a linear optimization routine that adjusts the sampling weights to high IRS and other targets from each year.  The results is a data file representative of tax units in the U.S. for all years, 2012-2024.
 
-Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for 2012.  Each year we consider (2013-2024) looks roughly similar, with a large mass concentrated in lower income bins and a long right tail.
+Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for 2012.  Each year we consider (2013-2024) looks roughly similar, with a large mass concentrated in lower income bins and a long right tail.  We differentiate $f(z)$ to find $f'(z)$.
 
 \begin{figure}[H]
 \caption{Pareto Log-Normal Density Estimate of $f(z)$}
@@ -140,18 +140,13 @@ Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for
 \includegraphics[width=\textwidth]{./images/income_dist_histogram.png}
 \end{figure}
 
-%We require the density function to be differentiable over the interval of estimation. Thus, we use Kernel Density Estimation (KDE),
-%\begin{equation*}
-%    \hat{f}(z) = \frac{1}{h*n} \sum_{k=1}^{n} K(\frac{z-z_i}{h}),
-% \end{equation*}
 
-We differentiate $f(z)$ to find $f'(z)$.
 
 \subsection{Marginal Tax Rates}\label{sec:mtr_est}
 
-Using the open-source \texttt{Tax-Calculator} microsimulation model, we simulate each candidate's tax policy proposals and find the resulting marginal tax rates faced by the primary filers in each tax unit in our underlying data file.  We use the same tax return microdata described in the previous section for this analysis.  When computing marginal tax rates, we focus on the rate associated with earning another dollar of labor income (wages and salaries on IRS Form 1040) for the primary filer.  We also use the combined, income and payroll tax, marginal tax rate to reflect the full burden of the federal tax system on labor income.
+Using the open-source \texttt{Tax-Calculator} microsimulation model, we simulate each candidate's tax policy proposals and find the resulting marginal tax rates faced by the primary filers in each tax unit in our underlying data file.\footnote{See \url{https://taxcalc.pslmodels.org} for documentation of the Tax-Calculator model.}  We use the same tax return microdata described in the previous section for this analysis.  When computing marginal tax rates, we focus on the rate associated with earning another dollar of labor income (wages and salaries on IRS Form 1040) for the primary filer.  We also use the combined, income and payroll tax, marginal tax rate to reflect the full burden of the federal tax system on labor income.
 
-After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into 1,000 bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  An example of the resulting marginal tax rate function, using 2023 tax law, can be seen in Figure \ref{fig:mtr_2023}.
+After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into 1,000 bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  An example of the resulting marginal tax rate function, using 2023 tax law, is represented in Figure \ref{fig:mtr_2023}.
 
 \begin{figure}[H]
 \caption{Fitted Marginal Tax Rate Schedule, $T'(z)$, for 2023 law}
@@ -164,16 +159,13 @@ $T''(z)$ is found through numerical differentiation.
 
 In Section \ref{sec:candidate_policy}, we describe the policies of the candidates we consider.  These policies are then parameterized and fed into the \texttt{Tax-Calculator} model to compute effective marginal tax rates, as described above.
 
-The primary model performs a kernel regression, also known as the Nadaraya–Watson estimator, which uses a multivariate kernel density estimation (univariate case described in section 4.1) of the joint density between $z$ and $T'$ to provide a local mean of $T'$ about $z$. We use a kernel bandwidth of \$10,000. The estimate is calculated as follows.
+The kernel regression, also known as the Nadaraya-Watson estimator, which uses a multivariate kernel density estimation of the joint density between $z$ and $T'$ to provide a local mean of $T'$ about $z$. We use a kernel bandwidth of \$10,000. The estimate is calculated as follows.
 
 \begin{equation*}
     \hat{T'}(z) = \sum_{i=1}^{n} \frac{K(z-z_i)}{\sum_{i=1}^{n} K(z-z_i)} T'_i(z_i)
 \end{equation*}
 
-Where $K$ is the Gaussian Kernel (described in section 4.1), $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for taxpayer $i$.
-Figure 5 is the kernel regression estimate of $T'(z)$ for each policy proposal.
-
-This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies. However, we recognize that the differences in the estimate vary much more across sample years than it does across policies. We discuss the implications of this result in sections 5 and 6.
+Where $K$ is the Gaussian Kernel, $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for taxpayer $i$. This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies.
 
 \subsection{Elasticity of Taxable Income}\label{sec:ETI}
 
@@ -229,7 +221,7 @@ Election and candidate & Policy benchmark & Modeled provisions & Source and note
 \section{Political Weights of Recent Presidential Candidates}
 \label{sec:estimated_weights}
 
-Given the candidate proposals outlined in the previous section, and using the kernel regression estimator described in Section \ref{sec:mtr_est}, we estimate the marginal tax rate schedule for each of the eight candidate-platforms.  Figure \ref{fig:mtr_all} plots these, with blue lines denoting Democrat party candidates and red lines denoting Republican party candidates. Line type varies with the year of the election.
+Given the candidate proposals outlined in the previous section, and using the kernel regression estimator described in Section \ref{sec:mtr_est}, we estimate the marginal tax rate schedule for each of the eight candidate-platforms.  Figure \ref{fig:mtr_all} plots these, with blue lines denoting Democratic party candidates and red lines denoting Republican party candidates. Line type varies with the year of the election.
 
 \begin{figure}[H]
 \caption{Candidates' Proposed Marginal Tax Rates, $T'(z)$}
@@ -238,7 +230,7 @@ Given the candidate proposals outlined in the previous section, and using the ke
 \includegraphics[width=\textwidth]{./images/mtr_all.png}
 \end{figure}
 
-A few observations are clear from Figure \ref{fig:mtr_all}. First, marginal tax rates for all candidates are very similar for incomes up to about \$100,000.  Second, Romney is an outlier with significantly lower marginal tax rates than other candidates, all along the income distribution.  Third, all candidates' proposals reflect a progressive marginal tax rate structure, although it is very modest with Romney.  Fourth, we see a clear tendency for Democratic candidates to have higher tax rates on the high income, than Republican candidates.  Finally, there does seem to be a trend over of time, and across parties, to more heavily tax the highest income earners.  Both Biden and Trump (2020) have the highest marginal tax rates of any general election candidate from their party since 2012.  Biden's plan to impose payroll taxes on incomes above \$400,000 shows up very clearly in these marginal tax rate functions, with a steep increase in the level of MTRs beginning around that threshold. This will be reflected in the implied political weights.
+A few observations are clear from Figure \ref{fig:mtr_all}. First, marginal tax rates for all candidates are very similar for incomes up to about \$100,000.  Second, Romney is an outlier with significantly lower marginal tax rates than other candidates, all along the income distribution.  Third, all candidates' proposals reflect a progressive marginal tax rate structure, although it is very modest with Romney.  Fourth, we see a clear tendency for Democratic candidates to have higher tax rates on taxpayers with high income than Republican candidates.  Finally, there is an increasing trend over of time, and across parties, to more heavily tax the highest income earners.  Both Biden and Trump (2020) have the highest marginal tax rates of any general election candidate from their party since 2012.  Biden's plan to impose payroll taxes on incomes above \$400,000 shows up very clearly in these marginal tax rate functions, with a steep increase in the level of MTRs beginning around that threshold. This will be reflected in the implied political weights.
 
 Combining the estimates of $T'(z)$ with our estimates on the income distribution in 2012, 2016, 2020, and 2024 using an ETI of 0.25, we back out the implied political weights with the inverse optimal tax approach, as given in Equation \ref{eqn:g_z}.  Figure \ref{fig:gz_all} relates the estimated weights.
 
@@ -249,15 +241,40 @@ Combining the estimates of $T'(z)$ with our estimates on the income distribution
 \includegraphics[width=\textwidth]{./images/gz_all_pln.png}
 \end{figure}
 
-We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Candidates' political weights become more different at incomes over \$600,000.  At that point, we begin to see lower weights from Democratic candidates relative to Republicans.  At the same time, the pattern of weights within party are quite similar over time.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed).
+We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  This result is in line with the findings of \citet{LW2016} who find that since the Tax Reform Act of 1986, the implied political weights of federal tax income tax policy has been relatively stable despite partisan control of Congress and the White House turning over multiple times. Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Table \ref{tab:weights_pctile} shows the estimated political weights at selected income percentiles for all candidates.  Candidates' political weights become more different at incomes over \$600,000.  At that point, we begin to see lower weights from Democratic candidates relative to Republicans.  At the same time, the pattern of weights within party are quite similar over time.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed).
 
-TODO: more to write here?  Be nice if we can get a plot to decompose the weights to work and put that here (we only have decomposition code for JJZ method but we are using the LW method to estimate the weights.  E.g.,
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table}[htbp]
+  \centering
+  \caption{Estimated Political Weights at Selected Income Percentiles}
+    \begin{tabular}{lrrrrr}
+        \hline
+        \hline
+    Candidate & \multicolumn{1}{l}{10th Pctile} & \multicolumn{1}{l}{25th Pctile} & \multicolumn{1}{l}{50th Pctile} & \multicolumn{1}{l}{90th Pctile} & \multicolumn{1}{l}{99th Pctile} \\
+    \hline
+    Democrats &       &       &       &       &  \\
+    \ \ Obama 2015 & 1.099 & 1.059 & 1.014 & 0.893 & 0.709 \\
+    \ \ Clinton 2016 & 1.099 & 1.059 & 1.016 & 0.892 & 0.705 \\
+    \ \ Biden 2020 & 1.105 & 1.063 & 1.016 & 0.872 & 0.616 \\
+    \ \ Harris 2024 & 1.102 & 1.066 & 1.024 & 0.874 & 0.741 \\
+    Republicans &       &       &       &       &  \\
+    \ \ Romney 2012 & 1.091 & 1.053 & 1.011 & 0.899 & 0.766 \\
+    \ \ Trump 2016 & 1.091 & 1.055 & 1.016 & 0.899 & 0.698 \\
+    \ \ Trump 2020 & 1.105 & 1.064 & 1.016 & 0.871 & 0.687 \\
+    \ \  Trump 2024 & 1.089 & 1.057 & 1.021 & 0.888 & 0.701 \\
+    \hline
+    \hline
+    \end{tabular}%
+  \label{tab:weights_pctile}%
+\end{table}%
 
+
+Figure \ref{fig:Biden_decomp} shows the decomposition of the political weights for Biden's 2020 proposals.  The black line shows the implied political weights, $g_z$. The red and blue shaded areas represent the two contributing factors to the $g_z$, changes in marginal tax rates which affect the amount of deadweight loss and changes in the amount of revenue, respectively.  The figure shows that the inflection in marginal tax rates when moving from  about \$200k to \$600k because payroll taxes are again applied to earnings about \$400k, that leads to relatively higher political weights in this upper end of the income distribution.   However, the decline in the tax base elasticity (the amount of revenue rates per percentage point of tax) implies lower political weights as income goes up.  The net effect is that the implied political weights are generally declining in income with the exception of those earning \$200k to \$500k where they are slightly increasing before a steep decline.  The relative contributions of the two components of $g_z$ are similar with other candidates, although others do not have the same inflection in marginal tax rates that Biden has in this income range because they do not propose to reapply payroll taxes at high income levels.
 \begin{figure}[H]
 \caption{Decomposing Political Weights, $g_z$, Biden 2020}
 \label{fig:Biden_decomp}
 \centering
-\includegraphics[width=\textwidth]{./images/composition_Biden2020_gz.png}
+\includegraphics[width=\textwidth]{./images/composition_Biden2020_gz_1m.png}
 \end{figure}
 
 
@@ -265,8 +282,7 @@ TODO: more to write here?  Be nice if we can get a plot to decompose the weights
 \label{sec:robustness}
 
 \subsection{Sensitivity to the level of the ETI}
-Figure \ref{fig:gz_vary_eti} shows the political weights from the Biden 2020 proposals under alternative assumptions about the (constant) ETI.  One can see that as the ETI increases, the implied political weights go down and that this pattern is more significant at the top of the income distribution where marginal tax rates are higher.
-
+Figure \ref{fig:gz_Biden_vary_eti} shows the political weights from the Biden 2020 proposals under alternative assumptions about the (constant) ETI.  One can see that as the ETI increases, the implied political weights go down and that this pattern is more significant at the top of the income distribution where marginal tax rates are higher. With elasticities above 0.4 we see that the top marginal tax rates would be passed the peak of the Laffer curve and the implied political weights would be negative, suggesting non-Paretian policy.
 
 \begin{figure}[H]
 \caption{Political Weights, $g_z$, for Biden 2020, alternative $\varepsilon$}
@@ -277,7 +293,7 @@ Figure \ref{fig:gz_vary_eti} shows the political weights from the Biden 2020 pro
 
 \subsection{Relaxing the assumption of a constant ETI}\label{sec:nonconstant_eti}
 
-Here, we relax the assumption that the ETI be constant across the income distribution. Note that the condition in Equation \ref{eqn:g_z} relied on the assumption of constant ETI for its derivation. Following \citet{LW2016}, the first order condition for the planner is
+Here we relax the assumption that the ETI be constant across the income distribution. Note that the condition in Equation \ref{eqn:g_z} relied on the assumption of constant ETI for its derivation. Following \citet{LW2016}, the first order condition for the planner is
 
 \begin{equation}
 \label{eqn:FOC}
@@ -293,7 +309,7 @@ Relaxing the constant ETI assumption and applying the chain rule, we obtain Equa
     g_z = 1 +  \varepsilon(z) \left [ \theta_z \frac{T'(z)}{(1-T'(z))} + \frac{zT''(z)}{(1-T'(z))^2} \right ] + \varepsilon'(z) \frac{z T'(z)}{1- T'(z)}.
 \end{equation}
 
-To calibrate the value at different points in the income distribution, we turn to \citet{GS2002}, who report the value of the ETI for three income groups.  We take their estimated ETI values from Table 9 and assign them to the income level that is approximately the median of each of the reported income bins (\$30,000, \$75,000, and \$250,000, respectively).  These are represented with red dots in Figure \ref{fig:vary_eti}.  Next, we take the ETI of the top 1\% estimated by \citet{MW2000} to be 1.83, using this as the value of the ETI at \$2,000,000 of income. We set another value of 1.9 at \$10,000,000 so that the spline function with estimates has a more flat curvature at high income levels.  The result of fitting a cubic spline through these data points is a function represented by the blue line in Figure \ref{fig:vary_eti}.
+To calibrate the value at different points in the income distribution, we turn to \citet{GS2002}, who report the value of the ETI for three income groups.  We take their estimated ETI values from Table 9 of their paper and assign them to the income level that is approximately the median of each of the reported income bins (\$30,000, \$75,000, and \$250,000, respectively).  These are represented with red dots in Figure \ref{fig:vary_eti}.  Next, we take the ETI of the top 1\% estimated by \citet{MW2000} to be 1.83, using this as the value of the ETI at \$2,000,000 of income. We set another value of 1.9 at \$10,000,000 so that the spline function with estimates has a more flat curvature at high income levels.  The result of fitting a cubic spline through these data points is a function represented by the blue line in Figure \ref{fig:vary_eti}.
 
 \begin{figure}[H]
 \caption{Varying $\varepsilon$, fitted values from Gruber and Saez (2002)}
@@ -302,7 +318,7 @@ To calibrate the value at different points in the income distribution, we turn t
 \includegraphics[width=\textwidth]{./images/ETI_spline.png}
 \end{figure}
 
-With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights implied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see some negative weights and generally a much steeper decline in the implied political weights on high income earners.  Of course, we noted earlier that a higher ETI will result in lower weights as the welfare function much be placing less weight on transfers to taxpayers at a given point in the income distribution if the deadweight loss is very large yet these filers face high marginal tax rates.
+With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights implied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see negative weights on taxpayers with income above \$600k for all candidates and a steeper decline in the implied political weights on high income earners.  Despite some empirical support for increasing ETI with income, the implied political weights suggest that candidates unlikely to hold such beliefs, as they would be proposing non-Paretian policies.
 
 
 \begin{figure}[H]
@@ -315,11 +331,11 @@ With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again reco
 \section{Inverting the inverse}
 \label{sec:invert_inverse}
 
-In this section we use the inverse-optimal tax theory to solve for beliefs about the behavior of taxpayers, summarized by the elasticity of taxable income.  That is, we use Equation \ref{eqn:FOC}, but solve for $\varepsilon(z)$ as function of the $T'(z)$, $f(z)$, and $g(z)$. Given that there is considerable debate among economists about the elasticity of taxable income \citep{SSG2012}, can we expect policy makers to agree as well?
+In this section we use the inverse-optimal tax theory to solve for beliefs about the behavior of taxpayers, summarized by the elasticity of taxable income.  That is, we use Equation \ref{eqn:FOC}, but solve for $\varepsilon(z)$ as function of the $T'(z)$, $f(z)$, and $g(z)$. Given that there is considerable debate among economists about the elasticity of taxable income \citep{SSG2012}, can we expect policy makers to agree as well?  And as we note in the previous section, the candidates' tax policy proposals are not likely consistent with beliefs about the ETI that are increasing in income.
 
-The thought experiment we want to do with this is the following: we see two candidates different policies.  If the median voter theorem holds, they should converge on their policy preferences.  So perhaps it's not a disagreement about the political preferences, but rather differences over beliefs about behavioral responses to policy as captured by the elasticity of taxable income in the model.
+The thought experiment we present is the following: we see two candidates with different policies.  If the median voter theorem holds, they should converge on their political weights.  Thus differences in policy may be explained by differences over beliefs about behavioral responses to policy as captured by the elasticity of taxable income.
 
-This is best solved as recasting Equation \ref{eqn:g_z_vary_ETI} as a first-order linear ODE in terms of $\varepsilon(z)$. The solution thus requires a boundary condition, which we set $\varepsilon_0$ equal to the estimate in Section \ref{sec:ETI}. With Equation \ref{eqn:solve_eti}, we can say solve for the implied beliefs about the ETI given a set of political weights and a proposed tax policy.
+Finding the elasticity of taxable income is best found by recasting Equation \ref{eqn:g_z_vary_ETI} as a first-order linear ODE in terms of $\varepsilon(z)$. The solution thus requires a boundary condition, which we set $\varepsilon_0$ equal to the estimate in Section \ref{sec:ETI}. With Equation \ref{eqn:solve_eti}, we can say solve for the implied beliefs about the ETI given a set of political weights and a proposed tax policy.
 
 \begin{equation}
     \label{eqn:solve_eti}
@@ -332,7 +348,7 @@ This is best solved as recasting Equation \ref{eqn:g_z_vary_ETI} as a first-orde
 %\varepsilon_{z} = \frac{(1-T'(z))}{T'(z)}\frac{(1-F(z))}{zf(z)}\int_{z}^{\infty}\frac{1-g_(\tilde{z})}{1-F(z)}dF(\tilde{z})
 %\end{equation}
 
-By assuming a set of candidates has the same political weights across the distribution of income, we can measure what their beliefs about the ETI must be to justify their policies. We illustrate this with Trump and Clinton 2016.  The implied political weights from their policy proposal and $\varepsilon=0.25$ are shown in Figure \ref{fig:gz_TrumpClinton}.
+By assuming two candidates have the same political weights across the distribution of income, we can measure what their beliefs about the ETI must be to justify their different policies. We illustrate this with the proposals of candidates Trump and Clinton in 2016.  The implied political weights from their policy proposal and an assumption of $\varepsilon=0.25$ are shown in Figure \ref{fig:gz_TrumpClinton}.
 
 \begin{figure}[H]
 \caption{Political Weights, $g_z$, Clinton and Trump 2016}
@@ -341,7 +357,7 @@ By assuming a set of candidates has the same political weights across the distri
 \includegraphics[width=\textwidth]{./images/trump_clinton_g_z_numerical.png}
 \end{figure}
 
-So if Trump really had the same political preferences at Clinton (and she believes $\varepsilon=0.25$), then what must his beliefs about the ETI be?  Figure \ref{fig:trump_eti} shows this. We see that we can rationalize the differences in policy between Trump and Clinton's policies by attributing a belief to Trump of $\varepsilon_z \approx 0.27$ rather than $\varepsilon_z \approx 0.25$. This is well within the reasonable range of $(0.12, 0.4)$ discussed by \citet{SSG2012}, and thus could be a reasonable explanation of the policy difference.
+If we suppose that Trump held the same political preferences at Clinton (and that she believes $\varepsilon=0.25$), then what must his beliefs about the ETI be to justify his different tax policy proposals?  Figure \ref{fig:trump_eti} shows this. One can rationalize the differences in policy between Trump and Clinton by attributing a belief to Trump of $\varepsilon_z \approx 0.27$ rather than $\varepsilon_z \approx 0.25$. This is well within the reasonable range of $(0.12, 0.4)$ discussed by \citet{SSG2012}, and thus could be a reasonable explanation of the policy differences.
 
 
 \begin{figure}[H]
@@ -370,25 +386,19 @@ We can also use this method to rule out preferences which would be associated wi
 %\end{figure}
 
 
-\section{Conclusions}
+\section{Conclusion}
 \label{sec:conclude}
 
-\subsection{Summary}
-We use the derivations of \citet{JJZ2017} to implement the inverse-optimal tax methodology, to infer the social welfare weights placed by presidential candidates on taxpayers in society. We use the IRS Public Use files and the \texttt{Tax Calculator} microsimulation model to estimate the distribution of income and marginal tax rates.
+We use the approach of \citet{JJZ2017} to implement the inverse-optimal tax methodology and infer the political weights placed on different taxpayers by U.S. presidential candidates from 2012-2024. Our findings show that candidates from both parties place similar weights on taxpayers with incomes below \$100,000, but that the weights of Democratic candidates on taxpayers with earnings above \$400,000 are generally lower than Republicans' weights on these taxpayers.  We also see some evidence that both parties place lower weight on these high income taxpayers in more recent election cycles.
 
-We use these inputs to calculate the political weights which make the proposed tax policies optimal for each presidential candidate. We find that candidates from both parties place similar weights on taxpayers with incomes below \$100,000, but that the weights of Democratic candidates on taxpayers with earnings above \$400,000 are much lower than Republicans' weights on these taxpayers.  We also see some evidence that both parties place lower weight on these high income taxpayers in 2020 than in prior election cycles.
+Under the assumption of a constant ETI of 0.25, all estimated weights are positive, indicating Paretian policies from the eight candidates-cycles we analyze.  However, when we use an empirically founded ETI function that varying by income, we do find negative welfare weights on high income taxpayers. This suggests that candidates may not believe that high income taxpayers have significantly larger behavioral responses than lower income taxpayers.
 
-Under the assumption of a constant ETI of 0.25, all estimated weights are positive, indicating Paretian policies from the eight candidates we analyze.  However, when we use an empirically founded ETI function that varying by income, we do find negative welfare weights on high income taxpayers. This suggests that candidates may not believe that high income taxpayers have significantly larger behavioral responses than lower income taxpayers.
+Finally, we show results from an exercise where we try to see what ETI assumptions it would take for the Trump 2016 tax policy to reflect the same political weights as the Clinton 2016 tax policy (under the assumption that Clinton believes the ETI is constant across income at 0.25).  This excercise shows that the differences in policy could be rationalized by a small difference in beliefs about the ETI, with Trump believing it is slightly higher than Clinton.  We also show that if we assume all candidates have utilitarian political weights, then they would need to believe an ETI that is outside the credible range of estimates.
 
-Finally, we show results from an exercise where we try to see what ETI assumptions it would take for the Trump 2016 tax policy to reflect the same political weights as the Clinton 2016 tax policy (under the assumption that Clinton believes the ETI is constant across income at 0.25).  This exercise yields implied ETIs that are unreasonable (e.g., the wrong sign).  This provides some evidence that the underlying political weights of the parties differ, which runs against the idea of platform convergence implied by the median voter theorem.
+One important extension to the model used in this paper would be to incorporate taxes on other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fully examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
 
+One could also improve the information included in our estimates by incorporating other transfer programs outside the tax system such as the Supplemental Nutrition Assistance Program (SNAP) and Medicaid. Including benefits programs would likely make the weights on the lower end of the income distribution higher since most transfer programs are need-based, and it would likely be higher for Democrats than Republicans.  The \texttt{PolicyEngine-US} model provides the ability to compute effective marginal tax rates on US taxpayers that consider both tax and benefit programs and could be a potential tool for such an extension. However, differences across states in these federal programs would need to be accounted for to accurately capture the effective marginal tax rates for taxpayers in different states.
 
-\subsection{Future Work}
-On extension to the model used in this paper would be to incorporate taxes of other sources of income, such as capital income, and wealth taxes. There are important differences across parties in candidates' policy proposals related to capital income taxation.  Wealth taxes are a hot topic of debate both academically and politically, with high profile debates being spurred by politicians such as Bernie Sanders and Elizabeth Warren. It would be interesting to be able to fully examine those candidates' proposals with our methods.  \citet{SLRSZ2022} may provide a framework to use when considering the taxation of multiple income sources.
-
-We could also improve the information included in our estimates by incorporating other transfer programs outside the tax system such as the Supplemental Nutrition Assistance Program (SNAP). The differences in policy goals between candidates is often divided along party lines. This could result in the candidates being more significantly different from each other. In particular, it might make the weights on the lower end of the income distribution higher since most transfer programs are need-based, and it would likely be higher for democrats than Republicans.  The \texttt{PolicyEngine-US} model provides the ability to compute effective marginal tax rates on US taxpayers that consider both tax and benefit programs.
-
-Finally, we could expand our analysis to more candidates, such as those in third parties and those who did not win their party's nomination. We could also try to extend our analysis further into the past. For transparency and reproducibility, the model used for our analysis is open source and available on Github (at \href{https://github.com/PSLmodels/InverseOptimalTax}{PSLmodels/InverseOptimalTax}). Thus, all that is needed to extend our results to a new candidate or policy is the specific changes suggested in the proposal. This tool can be used for candidates in future elections as well.
 
 
 \newpage
