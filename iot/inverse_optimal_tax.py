@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import scipy.stats as st
 import scipy
+import scipy.integrate
+import scipy.special
 from statsmodels.nonparametric.kernel_regression import KernelReg
 from scipy.interpolate import UnivariateSpline
 from scipy.linalg import lstsq
@@ -54,13 +56,16 @@ class IOT:
             data, income_measure, weight_var, dist_type, kde_bw
         )
         # see if eti is a scalar
-        if isinstance(eti, float):
+        if isinstance(eti, (int, float)):
             self.eti = eti
         else:  # if not, then it should be a dict with keys containing lists as values
             # check that same number of ETI values as knot points
             assert len(eti["knot_points"]) == len(eti["eti_values"])
             # want to interpolate across income distribution with knot points
-            # assume that eti can't go beyond 1 (or the max of the eti_values provided)
+            # NOTE: the spline extrapolates (linearly for k=1, cubically
+            # for k=3) outside the range of knot_points; values are not
+            # clipped, so verify the fitted eti is sensible at the
+            # extremes of the income grid
             if len(eti["knot_points"]) > 3:
                 spline_order = 3
             else:
@@ -270,16 +275,27 @@ class IOT:
                 weights=data[weight_var],
             )
             f = f_function.pdf(z_line)
-            F = np.cumsum(f)
-            f_prime = np.gradient(f, edge_order=2)
+            # CDF via cumulative trapezoid integration of the density
+            # (np.cumsum(f) alone ignores the grid spacing dz)
+            F = scipy.integrate.cumulative_trapezoid(f, z_line, initial=0)
+            f_prime = np.gradient(f, z_line, edge_order=2)
         elif dist_type == "Pln":
+
+            def mills_ratio(t):
+                # R(t) = (1 - Phi(t)) / phi(t), computed with the
+                # scaled complementary error function for numerical
+                # stability. The naive ratio underflows to 0/0 in the
+                # tails, which can zero out the fitted density and
+                # poison downstream calculations (theta_z, g_z) with
+                # infs/NaNs.
+                return np.sqrt(np.pi / 2) * scipy.special.erfcx(
+                    t / np.sqrt(2)
+                )
 
             def pln_pdf(y, mu, sigma, alpha):
                 x1 = alpha * sigma - (np.log(y) - mu) / sigma
                 phi = st.norm.pdf((np.log(y) - mu) / sigma)
-                R = (1 - st.norm.cdf(x1)) / (st.norm.pdf(x1) + 1e-15)
-                # 1e-15 to avoid division by zero
-                pdf = alpha / y * phi * R
+                pdf = alpha / y * phi * mills_ratio(x1)
                 return pdf
 
             def neg_weighted_log_likelihood(params, data, weights):
@@ -320,18 +336,16 @@ class IOT:
 
             def pln_cdf(y, mu, sigma, alpha):
                 x1 = alpha * sigma - (np.log(y) - mu) / sigma
-                R = (1 - st.norm.cdf(x1)) / (st.norm.pdf(x1) + 1e-12)
                 CDF = (
                     st.norm.cdf((np.log(y) - mu) / sigma)
-                    - st.norm.pdf((np.log(y) - mu) / sigma) * R
+                    - st.norm.pdf((np.log(y) - mu) / sigma)
+                    * mills_ratio(x1)
                 )
                 return CDF
 
             def pln_dpdf(y, mu, sigma, alpha):
                 x = (np.log(y) - mu) / sigma
-                R = (1 - st.norm.cdf(alpha * sigma - x)) / (
-                    st.norm.pdf(alpha * sigma - x) + 1e-15
-                )
+                R = mills_ratio(alpha * sigma - x)
                 left = (1 + x / sigma) * pln_pdf(y, mu, sigma, alpha)
                 right = (
                     alpha
@@ -384,7 +398,9 @@ class IOT:
             - self.F
             - (self.mtr / (1 - self.mtr)) * self.eti * self.z * self.f
         )
-        d_dz_bracket = np.gradient(bracket_term, edge_order=2)
+        # differentiate wrt z (must pass self.z; np.gradient otherwise
+        # assumes unit spacing and scales the result by 1/dz)
+        d_dz_bracket = np.gradient(bracket_term, self.z, edge_order=2)
         # d_dz_bracket = np.diff(bracket_term) / np.diff(self.z)
         # d_dz_bracket = np.append(d_dz_bracket, d_dz_bracket[-1])
         g_z_numerical = -(1 / self.f) * d_dz_bracket
@@ -420,20 +436,37 @@ def find_eti(iot, g_z=None, eti_0=0.25, boundary="z0"):
         g_z = iot.g_z
 
     if boundary == "z0":
-        # Original ODE approach with boundary condition at z=0
+        # Original ODE approach with boundary condition at the lowest
+        # grid point z_min (so that eti(z_min) = eti_0 exactly).
+        # Use cumulative trapezoid integration starting at 0 rather
+        # than np.cumsum, which is both less accurate and makes the
+        # integrating factor mu(z_min) != 1 (shifting the boundary
+        # condition off of eti_0).
         P_z = (
             1 / iot.z
             + iot.f_prime / iot.f
             + iot.mtr_prime / (iot.mtr * (1 - iot.mtr))
         )
-        mu_z = np.exp(np.cumsum(P_z))
+        mu_z = np.exp(
+            scipy.integrate.cumulative_trapezoid(P_z, iot.z, initial=0)
+        )
         Q_z = (g_z - 1) * (1 - iot.mtr) / (iot.mtr * iot.z)
-        int_mu_Q = np.cumsum(mu_z * Q_z)
+        int_mu_Q = scipy.integrate.cumulative_trapezoid(
+            mu_z * Q_z, iot.z, initial=0
+        )
         eti_beliefs = (eti_0 + int_mu_Q) / mu_z
 
     elif boundary == "inf":
         # Transversality condition: eps(z)*T'/(1-T')*z*f -> 0 as z -> inf
         # eps(z) = [(1-T'(z))/T'(z)] * [1/(z*f(z))] * int_z^inf (1 - g(zt)) f(zt) dzt
+        # CAUTION: the integral is truncated at the top of the income
+        # grid (z_max), so the mass of int_{z_max}^inf (1-g) f dz is
+        # dropped. This biases the implied eti toward zero as z
+        # approaches z_max (verified via a self-consistency test in
+        # which passing the model's own raw g_z should return the
+        # constant eti used to generate it). Interpret results near
+        # the top of the grid, and comparisons between the two
+        # boundary conditions, with this truncation bias in mind.
         integrand = (1 - g_z) * iot.f
         # Reverse cumulative integral: int_z^inf = int_0^inf - int_0^z
         # Compute using reverse cumsum of trapezoid contributions
