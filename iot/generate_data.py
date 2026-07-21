@@ -83,7 +83,7 @@ def gen_microdata(
 
     df = calc1.dataframe([weight_var, income_measure, "XTOT", "combined"])
 
-    (_, _, mtr1) = calc1.mtr(
+    _, _, mtr1 = calc1.mtr(
         mtr_wrt, calc_all_already_called=True, wrt_full_compensation=False
     )
     # use other mtr options? expanded income or other concept?

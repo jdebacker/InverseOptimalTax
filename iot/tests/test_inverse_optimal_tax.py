@@ -20,7 +20,7 @@ def test_IOT_df():
     calc.advance_to_year(2022)
     calc.calc_all()
     data = calc.dataframe(["s006", "e00200", "XTOT", "combined"])
-    (_, _, mtr1) = calc.mtr(
+    _, _, mtr1 = calc.mtr(
         "e00200p", calc_all_already_called=True, wrt_full_compensation=False
     )
     data["mtr"] = mtr1
