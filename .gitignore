@@ -130,3 +130,6 @@ dmypy.json
 
 # other temporary files
 *temp.py
+
+# old files
+archive/
