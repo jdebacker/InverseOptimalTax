@@ -146,7 +146,7 @@ Figure \ref{fig:income_dist} shows the fitted Pareto log-normal distribution for
 
 Using the open-source \texttt{Tax-Calculator} microsimulation model, we simulate each candidate's tax policy proposals and find the resulting marginal tax rates faced by the primary filers in each tax unit in our underlying data file.\footnote{See \url{https://taxcalc.pslmodels.org} for documentation of the Tax-Calculator model.}  We use the same tax return microdata described in the previous section for this analysis.  When computing marginal tax rates, we focus on the rate associated with earning another dollar of labor income (wages and salaries on IRS Form 1040) for the primary filer.  We also use the combined, income and payroll tax, marginal tax rate to reflect the full burden of the federal tax system on labor income.
 
-After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into 1,000 bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  An example of the resulting marginal tax rate function, using 2023 tax law, is represented in Figure \ref{fig:mtr_2023}.
+After simulating the marginal tax rates for each tax unit in our sample under a particular policy, we find the distribution of marginal tax rates over income using a kernel regression.  Specifically, we collapse the underlying data into bins based on labor income with equal dollar width.  For each bin, we compute the weighted average marginal tax rate, using the sampling weights from our microdata.  A kernel regression is then fit to these binned data. This gives a smooth function for $T'(z)$.  Figure \ref{fig:mtr_2023} shows the resulting marginal tax rate function using 2023 tax law.
 
 \begin{figure}[H]
 \caption{Fitted Marginal Tax Rate Schedule, $T'(z)$, for 2023 law}
@@ -155,17 +155,18 @@ After simulating the marginal tax rates for each tax unit in our sample under a 
 \includegraphics[width=\textwidth]{./images/MTR_2023.png}
 \end{figure}
 
-$T''(z)$ is found through numerical differentiation.
+The kernel regression we use is a local-linear regression run on the binned data described above.  At each evaluation point $z$, we fit a linear function of income to the binned marginal tax rates, weighting each bin by a kernel of its distance from $z$, so that bins with income near $z$ receive the most weight.  Because the regressor is centered at the evaluation point, the fitted value at $z$ is the estimated intercept of that local regression:
+
+\begin{align*}
+    \hat{T'}(z) &= \hat{a}(z), \label{eqn:mtr_kreg} \\
+    \left(\hat{a}(z), \hat{b}(z)\right) &= \arg\min_{a,b} \sum_{i=1}^{n} K\!\left(\frac{z - z_i}{h}\right)\left(\bar{T'}_i - a - b\,(z_i - z)\right)^2
+\end{align*}
+
+Here $K$ is the Gaussian kernel, $h = \$120{,}000$ is the bandwidth, $n = 1{,}000$ is the number of income bins, $\bar{T'}_i$ is the weighted average marginal tax rate in bin $i$, and $z_i$ is the weighted average income in bin $i$.  Note that this minimization problem is solved separately at each income level $z$: the kernel weights and the centering both depend on $z$, so the intercept $\hat{a}(z)$ varies with income.  Because the Gaussian kernel is smooth, the resulting $\hat{T'}(z)$ is a smooth function of income, which matters for recovering $T''(z)$ below.
+
+We obtain $T''(z)$ by numerically differentiating the fitted schedule $\hat{T'}(z)$ over the income grid.  (The local slope coefficient $\hat{b}(z)$ is an alternative estimator of $T''(z)$, but we do not use it, as the numerical derivative of $\hat{T'}(z)$ is internally consistent with the marginal tax rate schedule we report.)
 
 In Section \ref{sec:candidate_policy}, we describe the policies of the candidates we consider.  These policies are then parameterized and fed into the \texttt{Tax-Calculator} model to compute effective marginal tax rates, as described above.
-
-The kernel regression, also known as the Nadaraya-Watson estimator, which uses a multivariate kernel density estimation of the joint density between $z$ and $T'$ to provide a local mean of $T'$ about $z$. We use a kernel bandwidth of \$10,000. The estimate is calculated as follows.
-
-\begin{equation*}
-    \hat{T'}(z) = \sum_{i=1}^{n} \frac{K(z-z_i)}{\sum_{i=1}^{n} K(z-z_i)} T'_i(z_i)
-\end{equation*}
-
-Where $K$ is the Gaussian Kernel, $n$ is the sample size, and $T'_i(z_i)$ is the marginal tax rate for taxpayer $i$. This kernel estimate is sufficiently smooth (continuous derivative), and accounts for the variation in policies.
 
 \subsection{Elasticity of Taxable Income}\label{sec:ETI}
 
@@ -230,7 +231,7 @@ Given the candidate proposals outlined in the previous section, and using the ke
 \includegraphics[width=\textwidth]{./images/mtr_all.png}
 \end{figure}
 
-A few observations are clear from Figure \ref{fig:mtr_all}. First, marginal tax rates for all candidates are very similar for incomes up to about \$100,000.  Second, Romney is an outlier with significantly lower marginal tax rates than other candidates, all along the income distribution.  Third, all candidates' proposals reflect a progressive marginal tax rate structure, although it is very modest with Romney.  Fourth, we see a clear tendency for Democratic candidates to have higher tax rates on taxpayers with high income than Republican candidates.  Finally, there is an increasing trend over of time, and across parties, to more heavily tax the highest income earners.  Both Biden and Trump (2020) have the highest marginal tax rates of any general election candidate from their party since 2012.  Biden's plan to impose payroll taxes on incomes above \$400,000 shows up very clearly in these marginal tax rate functions, with a steep increase in the level of MTRs beginning around that threshold. This will be reflected in the implied political weights.
+A few observations are clear from Figure \ref{fig:mtr_all}. First, marginal tax rates for all candidates are within a few percentage points of one another below \$100,000, with the partisan gap beginning to open from about \$75,000.  Second, Romney has the flattest marginal tax rate schedule, and above about \$200,000 he has the lowest marginal tax rates of any candidate.  Third, all candidates' proposals reflect a progressive marginal tax rate structure that is roughly logarithmic in shape.  Fourth, we see a clear tendency for Democratic candidates to have higher tax rates on taxpayers with high income than Republican candidates.  Finally, there is an increasing trend over of time, and across parties, to more heavily tax the highest income earners.  Biden has the highest marginal tax rates of any Democratic general election candidate since 2012, while Trump (2020) is at or near the top of the Republican schedules over most of the upper income range, with Trump (2024) very close. Biden's plan to impose payroll taxes on incomes above \$400,000 shows up very clearly in these marginal tax rate functions, with a steep increase in the level of MTRs beginning around that threshold. This will be reflected in the implied political weights.
 
 Combining the estimates of $T'(z)$ with our estimates on the income distribution in 2012, 2016, 2020, and 2024 using an ETI of 0.25, we back out the implied political weights with the inverse optimal tax approach, as given in Equation \ref{eqn:g_z}.  Figure \ref{fig:gz_all} relates the estimated weights.
 
@@ -241,7 +242,7 @@ Combining the estimates of $T'(z)$ with our estimates on the income distribution
 \includegraphics[width=\textwidth]{./images/gz_all.png}
 \end{figure}
 
-We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  This result is in line with the findings of \citet{LW2016} who find that since the Tax Reform Act of 1986, the implied political weights of federal tax income tax policy has been relatively stable despite partisan control of Congress and the White House turning over multiple times. Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Table \ref{tab:weights_pctile} shows the estimated political weights at selected income percentiles for all candidates.  Candidates' political weights become more different at incomes over \$600,000.  At that point, we begin to see lower weights from Democratic candidates relative to Republicans.  At the same time, the pattern of weights within party are quite similar over time.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed).
+We note that for incomes below about \$200,000, there is little deviation among the candidates as to the weights they place on taxpayers.  This result is in line with the findings of \citet{LW2016} who find that since the Tax Reform Act of 1986, the implied political weights of federal tax income tax policy has been relatively stable despite partisan control of Congress and the White House turning over multiple times. Furthermore, weights are generally declining in income, across all candidates, showing a political motive to redistribute towards lower income taxpayers.   Table \ref{tab:weights_pctile} shows the estimated political weights at selected income percentiles for all candidates.  Candidates' political weights begin to separate materially at incomes above roughly \$250,000 to \$300,000.  Above about \$600,000, Democratic candidates on average place lower weights on taxpayers than Republicans, though not everywhere pointwise: Harris 2024 lies above Trump 2016 and Trump 2020 over roughly \$700,000 to \$900,000.  The most visually striking feature is the Biden 2020 schedule, whose weight rises to a local maximum of about 0.88 near \$430,000, the highest of any candidate in that range, before falling to the lowest of any candidate, about 0.32, by \$1 million.  Harris 2024 shows a second, smaller hump, peaking near 0.74 around \$780,000.  Below about \$300,000 the pattern of weights within party is quite similar over time; at the very top, however, the within-party spread is as large as the cross-party spread, with the Democratic weights at \$1 million ranging from about 0.32 for Biden to about 0.60 for Harris.  Also of note, weights are never negative.  A negative weight would indicate a non-Paretian policy by implying that marginal tax rates are set such that one is on the right side of the Laffer Curve, and a reduction in those rates would raise those agents utility and raise revenue (that could be redistributed).
 
 % Table generated by Excel2LaTeX from sheet 'Sheet1'
 \begin{table}[htbp]
@@ -254,14 +255,14 @@ We note that for incomes below about \$200,000, there is little deviation among 
     \hline
     Democrats &       &       &       &       &  \\
     \ \ Obama 2015 & 1.099 & 1.059 & 1.014 & 0.893 & 0.709 \\
-    \ \ Clinton 2016 & 1.099 & 1.059 & 1.016 & 0.892 & 0.705 \\
-    \ \ Biden 2020 & 1.105 & 1.063 & 1.016 & 0.872 & 0.616 \\
-    \ \ Harris 2024 & 1.102 & 1.066 & 1.024 & 0.874 & 0.741 \\
+    \ \ Clinton 2016 & 1.099 & 1.059 & 1.016 & 0.891 & 0.705 \\
+    \ \ Biden 2020 & 1.108 & 1.064 & 1.014 & 0.873 & 0.614 \\
+    \ \ Harris 2024 & 1.103 & 1.066 & 1.024 & 0.873 & 0.728 \\
     Republicans &       &       &       &       &  \\
     \ \ Romney 2012 & 1.091 & 1.053 & 1.011 & 0.899 & 0.766 \\
     \ \ Trump 2016 & 1.091 & 1.055 & 1.016 & 0.899 & 0.698 \\
-    \ \ Trump 2020 & 1.105 & 1.064 & 1.016 & 0.871 & 0.687 \\
-    \ \  Trump 2024 & 1.089 & 1.057 & 1.021 & 0.888 & 0.701 \\
+    \ \ Trump 2020 & 1.109 & 1.065 & 1.015 & 0.872 & 0.684 \\
+    \ \  Trump 2024 & 1.090 & 1.058 & 1.021 & 0.888 & 0.704 \\
     \hline
     \hline
     \end{tabular}%
@@ -269,7 +270,7 @@ We note that for incomes below about \$200,000, there is little deviation among 
 \end{table}%
 
 
-Figure \ref{fig:Biden_decomp} shows the decomposition of the political weights for Biden's 2020 proposals.  The black line shows the implied political weights, $g_z$. The red and blue shaded areas represent the two contributing factors to the $g_z$, changes in marginal tax rates which affect the amount of deadweight loss and changes in the amount of revenue, respectively.  The figure shows that the inflection in marginal tax rates when moving from  about \$200k to \$600k because payroll taxes are again applied to earnings about \$400k, that leads to relatively higher political weights in this upper end of the income distribution.   However, the decline in the tax base elasticity (the amount of revenue rates per percentage point of tax) implies lower political weights as income goes up.  The net effect is that the implied political weights are generally declining in income with the exception of those earning \$200k to \$500k where they are slightly increasing before a steep decline.  The relative contributions of the two components of $g_z$ are similar with other candidates, although others do not have the same inflection in marginal tax rates that Biden has in this income range because they do not propose to reapply payroll taxes at high income levels.
+Figure \ref{fig:Biden_decomp} shows the decomposition of the political weights for Biden's 2020 proposals.  The black line shows the implied political weights, $g_z$. The red and blue shaded areas represent the two contributing factors to the $g_z$, changes in marginal tax rates which affect the amount of deadweight loss and changes in the amount of revenue, respectively.  The figure shows that the inflection in marginal tax rates when moving from  about \$150k to \$800k, centered near \$500k, because payroll taxes are again applied to earnings about \$400k, that leads to relatively higher political weights in this upper end of the income distribution.   However, the decline in the tax base elasticity (the amount of revenue rates per percentage point of tax) implies lower political weights as income goes up.  The net effect is that the implied political weights are generally declining in income with the exception of those earning \$270k to \$430k where they are slightly increasing before a steep decline.  The relative contributions of the two components of $g_z$ are similar with other candidates, although others do not have the same inflection in marginal tax rates that Biden has in this income range because they do not propose to reapply payroll taxes at high income levels.
 \begin{figure}[H]
 \caption{Decomposing Political Weights, $g_z$, Biden 2020}
 \label{fig:Biden_decomp}
@@ -282,7 +283,7 @@ Figure \ref{fig:Biden_decomp} shows the decomposition of the political weights f
 \label{sec:robustness}
 
 \subsection{Sensitivity to the level of the ETI}
-Figure \ref{fig:gz_Biden_vary_eti} shows the political weights from the Biden 2020 proposals under alternative assumptions about the (constant) ETI.  One can see that as the ETI increases, the implied political weights go down and that this pattern is more significant at the top of the income distribution where marginal tax rates are higher. With elasticities above 0.4 we see that the top marginal tax rates would be passed the peak of the Laffer curve and the implied political weights would be negative, suggesting non-Paretian policy.
+Figure \ref{fig:gz_Biden_vary_eti} shows the political weights from the Biden 2020 proposals under alternative assumptions about the (constant) ETI.  One can see that as the ETI increases, the implied political weights are scaled away from 1, and they go down significantly at the top of the income distribution where marginal tax rates are higher. At an elasticity of 0.4 and above, the implied political weights turn negative at the very top of the income range, above roughly \$850,000 for $\varepsilon = 0.4$, indicating that top marginal tax rates would be past the peak of the Laffer curve, suggesting non-Paretian policy. The shape of the weight schedule is preserved across values of the elasticity.
 
 \begin{figure}[H]
 \caption{Political Weights, $g_z$, for Biden 2020, alternative $\varepsilon$}
@@ -293,7 +294,7 @@ Figure \ref{fig:gz_Biden_vary_eti} shows the political weights from the Biden 20
 
 \subsection{Relaxing the assumption of a constant ETI}\label{sec:nonconstant_eti}
 
-Here we relax the assumption that the ETI be constant across the income distribution. Note that the condition in Equation \ref{eqn:g_z} relied on the assumption of constant ETI for its derivation. Following \citet{LW2016}, the first order condition for the planner is
+Here we relax the assumption that the ETI be constant across the income distribution. Note that the condition in Equation \ref{eqn:g_z} relied on the assumption of constant ETI for its derivation. Following \citet{LW2016}, the optimality condition for the planner is
 
 \begin{equation}
 \label{eqn:FOC}
@@ -318,7 +319,7 @@ To calibrate the value at different points in the income distribution, we turn t
 \includegraphics[width=\textwidth]{./images/ETI_spline.png}
 \end{figure}
 
-With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights implied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see negative weights on taxpayers with income above \$600k for all candidates and a steeper decline in the implied political weights on high income earners.  Despite some empirical support for increasing ETI with income, the implied political weights suggest that candidates unlikely to hold such beliefs, as they would be proposing non-Paretian policies.
+With the function $\varepsilon(z)$ from Figure \ref{fig:vary_eti}, we again recover the political weights implied by each of the eight candidates' platforms.  The results are in Figure \ref{fig:gz_vary_eti}.  Here we see that the implied political weights turn negative for most candidates near \$600,000 (Biden 2020 crossing first), and every candidate beyond \$800,000. We see a much steeper decline in the implied political weights on high income earners: Biden 2020 reaches about $-4.0$ at \$1 million, while the other candidates land between about $-1.5$ and $-2.8$.  A further feature is that, under $\varepsilon(z)$, the weights are roughly utilitarian for the bottom 99\% of the income distribution, but also non-monotonic. They exceed one across roughly \$150,000 to \$550,000 after dipping near \$60,000, and peaking for moderately high earners. That is, the exercise now implies candidates weight upper-middle incomes more heavily than the bottom, reversing the monotone decline of the baseline.  Despite some empirical support for increasing ETI with income, the implied political weights suggest that candidates unlikely to hold such beliefs, as they would be proposing non-Paretian policies.
 
 
 \begin{figure}[H]
