@@ -1,4 +1,3 @@
-from email.mime import base
 import taxcalc as tc
 import numpy as np
 import pandas as pd

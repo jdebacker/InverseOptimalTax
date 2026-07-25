@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# other temporary files
+*temp.py
+
+# old files
+archive/
