@@ -2,7 +2,7 @@ name: iot-dev
 channels:
 - conda-forge
 dependencies:
-- python
+- python<3.11
 - "taxcalc==4.4.0"
 - pandas
 - numpy
