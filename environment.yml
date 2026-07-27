@@ -3,7 +3,7 @@ channels:
 - conda-forge
 dependencies:
 - python
-- "taxcalc>=4.0.0"
+- "taxcalc==4.4.0"
 - pandas
 - numpy
 - scipy
@@ -15,7 +15,7 @@ dependencies:
 - pylint
 - coverage
 - pip:
-  - jupyter-book>=0.9.1
+  - jupyter-book<2.0.0
   - black
   - plotly-express
   - kaleido
