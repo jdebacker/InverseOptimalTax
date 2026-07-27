@@ -288,9 +288,7 @@ class IOT:
                 # tails, which can zero out the fitted density and
                 # poison downstream calculations (theta_z, g_z) with
                 # infs/NaNs.
-                return np.sqrt(np.pi / 2) * scipy.special.erfcx(
-                    t / np.sqrt(2)
-                )
+                return np.sqrt(np.pi / 2) * scipy.special.erfcx(t / np.sqrt(2))
 
             def pln_pdf(y, mu, sigma, alpha):
                 x1 = alpha * sigma - (np.log(y) - mu) / sigma
@@ -336,11 +334,9 @@ class IOT:
 
             def pln_cdf(y, mu, sigma, alpha):
                 x1 = alpha * sigma - (np.log(y) - mu) / sigma
-                CDF = (
-                    st.norm.cdf((np.log(y) - mu) / sigma)
-                    - st.norm.pdf((np.log(y) - mu) / sigma)
-                    * mills_ratio(x1)
-                )
+                CDF = st.norm.cdf((np.log(y) - mu) / sigma) - st.norm.pdf(
+                    (np.log(y) - mu) / sigma
+                ) * mills_ratio(x1)
                 return CDF
 
             def pln_dpdf(y, mu, sigma, alpha):
@@ -480,14 +476,10 @@ def find_eti(iot, g_z=None, eti_0=0.25, boundary="z0"):
         tail_integral = np.append(rev_cumsum, 0.0)
 
         eti_beliefs = (
-            ((1 - iot.mtr) / iot.mtr)
-            * (1 / (iot.z * iot.f))
-            * tail_integral
+            ((1 - iot.mtr) / iot.mtr) * (1 / (iot.z * iot.f)) * tail_integral
         )
     else:
-        raise ValueError(
-            f"boundary must be 'z0' or 'inf', got '{boundary}'"
-        )
+        raise ValueError(f"boundary must be 'z0' or 'inf', got '{boundary}'")
 
     return eti_beliefs
 
